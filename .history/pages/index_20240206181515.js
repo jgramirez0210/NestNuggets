@@ -1,7 +1,7 @@
 import { useAuth } from '../utils/context/authContext';
 
 function Home() {
-  const { user } = useAuth();
+  const { user } = useAuth(); // TODO: COMMENT IN FOR AUTH
 
   return (
     <div
