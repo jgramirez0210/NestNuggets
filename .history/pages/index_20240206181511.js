@@ -1,7 +1,9 @@
+import { Button } from 'react-bootstrap'; // TODO: COMMENT IN FOR AUTH
+import signOut from '../utils/auth'; // TODO: COMMENT IN FOR
 import { useAuth } from '../utils/context/authContext';
 
 function Home() {
-  const { user } = useAuth();
+  const { user } = useAuth(); // TODO: COMMENT IN FOR AUTH
 
   return (
     <div
