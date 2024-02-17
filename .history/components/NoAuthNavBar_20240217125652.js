@@ -10,13 +10,13 @@ export default function NoAuthNavBar() {
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
         <Link passHref href="/">
-          <Navbar.Brand>
-            <Image src="./public/logo.png" alt="Nest Nuggets Logo" height={30} className="d-inline-block align-top" /> Nest Nuggets
-          </Navbar.Brand>
+          <Image src="/assets/NNLogo.png" alt="Brand Logo" width="30" height="30" className="d-inline-block align-top" />
+          <Navbar.Brand>Nest Nuggets</Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
+            {/* CLOSE NAVBAR ON LINK SELECTION: https://stackoverflow.com/questions/72813635/collapse-on-select-react-bootstrap-navbar-with-nextjs-not-working */}
             <Link passHref href="/">
               <Nav.Link>Home</Nav.Link>
             </Link>
