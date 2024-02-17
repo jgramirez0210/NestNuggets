@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import {
-  Navbar, Container, Nav, Image,
+  Navbar, Container, Nav, Image
 } from 'react-bootstrap';
 
 export default function NoAuthNavBar() {
@@ -11,7 +11,8 @@ export default function NoAuthNavBar() {
       <Container>
         <Link passHref href="/">
           <Navbar.Brand>
-            <Image src="./public/logo.png" alt="Nest Nuggets Logo" height={30} className="d-inline-block align-top" /> Nest Nuggets
+            <Image src="./assets/NNLogo.png" alt="Nest Nuggets Logo" height={30} className="d-inline-block align-top" />
+            Nest Nuggets
           </Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

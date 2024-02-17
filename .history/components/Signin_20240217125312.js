@@ -6,7 +6,7 @@ import NoAuthNavBar from './NoAuthNavBar';
 function Signin() {
   return (
     <>
-      <NoAuthNavBar />
+      < NoAuthNavBar/>
       <div
         className="text-center d-flex flex-column justify-content-center align-content-center"
         style={{

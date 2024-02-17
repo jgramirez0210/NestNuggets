@@ -11,8 +11,7 @@ export default function NoAuthNavBar() {
       <Container>
         <Link passHref href="/">
           <Navbar.Brand>
-            <Image src="./public/logo.png" alt="Nest Nuggets Logo" height={30} className="d-inline-block align-top" /> Nest Nuggets
-          </Navbar.Brand>
+            <Image src="/assets/NNLogo.png" alt="Nest Nuggets Logo" height={30} className="d-inline-block align-top" /> Nest Nuggets               </Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
