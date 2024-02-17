@@ -16,11 +16,8 @@ export default function NavBarAuth() {
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Link passHref href="/review/edit/new">
+          <Link passHref href="pages/edit/new.js">
             <Navbar.Brand> Review a Property</Navbar.Brand>
-          </Link>
-          <Link passHref href="/userDashboard/new">
-            <Navbar.Brand> User Dashboard</Navbar.Brand>
           </Link>
           <Button variant="danger" onClick={signOut}>Sign Out</Button>
           <Form className="d-flex">

@@ -19,9 +19,6 @@ export default function NavBarAuth() {
           <Link passHref href="/review/edit/new">
             <Navbar.Brand> Review a Property</Navbar.Brand>
           </Link>
-          <Link passHref href="/userDashboard/new">
-            <Navbar.Brand> User Dashboard</Navbar.Brand>
-          </Link>
           <Button variant="danger" onClick={signOut}>Sign Out</Button>
           <Form className="d-flex">
             <FormControl type="search" placeholder="Search" className="me-2" aria-label="Search" />

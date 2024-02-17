@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import Link from 'next/link';
 import {
-  Navbar, Container, Image, Form, FormControl, Button,
+  Navbar, Container, Nav, Button,
 } from 'react-bootstrap';
 import { signOut } from '../utils/auth';
 
@@ -16,13 +17,6 @@ export default function NavBarAuth() {
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Link passHref href="/review/edit/new">
-            <Navbar.Brand> Review a Property</Navbar.Brand>
-          </Link>
-          <Link passHref href="/userDashboard/new">
-            <Navbar.Brand> User Dashboard</Navbar.Brand>
-          </Link>
-          <Button variant="danger" onClick={signOut}>Sign Out</Button>
           <Form className="d-flex">
             <FormControl type="search" placeholder="Search" className="me-2" aria-label="Search" />
             <Button variant="outline-success" type="submit">Search</Button>
@@ -32,3 +26,6 @@ export default function NavBarAuth() {
     </Navbar>
   );
 }
+
+
+

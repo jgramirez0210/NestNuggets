@@ -3,9 +3,8 @@ import Link from 'next/link';
 import {
   Navbar, Container, Image, Form, FormControl, Button,
 } from 'react-bootstrap';
-import { signOut } from '../utils/auth';
-
-export default function NavBarAuth() {
+import Signin from './Signin';
+export default function NoAuthNavBar() {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
@@ -16,13 +15,9 @@ export default function NavBarAuth() {
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Link passHref href="/review/edit/new">
-            <Navbar.Brand> Review a Property</Navbar.Brand>
-          </Link>
-          <Link passHref href="/userDashboard/new">
-            <Navbar.Brand> User Dashboard</Navbar.Brand>
-          </Link>
-          <Button variant="danger" onClick={signOut}>Sign Out</Button>
+          <Button type="button" size="lg" className="copy-btn" onClick={signIn}>
+            Sign In
+          </Button>
           <Form className="d-flex">
             <FormControl type="search" placeholder="Search" className="me-2" aria-label="Search" />
             <Button variant="outline-success" type="submit">Search</Button>
