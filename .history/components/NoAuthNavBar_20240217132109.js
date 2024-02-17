@@ -1,9 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import Link from 'next/link';
 import {
-  Navbar, Container, Image, Form, FormControl, Button,
+  Navbar, Container, Nav, Image,
 } from 'react-bootstrap';
-import { signIn } from '../utils/auth';
 
 export default function NoAuthNavBar() {
   return (
@@ -15,14 +15,14 @@ export default function NoAuthNavBar() {
           </Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Button type="button" size="lg" className="copy-btn" onClick={signIn}>
-            Sign In
-          </Button>
-          <Form className="d-flex">
-            <FormControl type="search" placeholder="Search" className="me-2" aria-label="Search" />
-            <Button variant="outline-success" type="submit">Search</Button>
-          </Form>
+        <Navbar.Collapse id="responsive-navbar-nav"><nav class="navbar bg-body-tertiary">
+  <div class="container-fluid">
+    <form class="d-flex" role="search">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
