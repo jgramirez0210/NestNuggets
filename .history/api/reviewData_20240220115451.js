@@ -43,10 +43,9 @@ const createReview = (payload) => new Promise((resolve, reject) => {
     body: JSON.stringify(payload),
   })
     .then((response) => response.json())
-    .then((data) => resolve(data))
+    .then((data) => resolve(data.name)) // data.name is the firebaseKey
     .catch(reject);
 });
-
 // UPDATE REVIEW
 const updateReview = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/review/${payload.firebaseKey}.json`, {
@@ -61,7 +60,7 @@ const updateReview = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// DELETE REVIEW
+// DELETE BOOK
 const deleteReview = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/review/${firebaseKey}.json`, {
     method: 'DELETE',

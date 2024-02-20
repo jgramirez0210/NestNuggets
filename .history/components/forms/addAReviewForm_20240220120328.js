@@ -52,12 +52,12 @@ function AddAReviewForm({ obj }) {
     const dateTime = now.toISOString();
 
     if (obj && obj.firebaseKey) {
-      updateReview(obj.firebaseKey, { ...formInput, dateTime, uid: user.uid }).then(() => router.push(`/review${obj.firebaseKey}`));
+      updateReview(obj.firebaseKey, { ...formInput, dateTime, uid: user.uid }).then(() => router.push('/reviews'));
     } else {
       createReview({ ...formInput, dateTime, uid: user.uid })
         .then((firebaseKey) => {
-          console.warn('New review created with firebaseKey:', firebaseKey);
-          router.push('/');
+          console.log('New review created with firebaseKey:', firebaseKey);
+          router.push('/reviews');
         });
     }
   };
