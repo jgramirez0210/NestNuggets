@@ -63,7 +63,7 @@ const updateReview = (payload) => new Promise((resolve, reject) => {
 
 // DELETE BOOK
 const deleteReview = (firebaseKey) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/review/${firebaseKey}.json`, {
+  fetch(`${endpoint}/books/${firebaseKey}.json`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

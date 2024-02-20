@@ -4,12 +4,11 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import GetStars from './GetStars';
-import { deleteReview } from '../api/reviewData';
 
-function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
+function AuthReviewCard({ reviewObj, onDashboard }) {
   const deleteThisReview = () => {
-    if (window.confirm(`Delete ${reviewObj.address}?`)) {
-      deleteReview(reviewObj.firebaseKey).then(() => onUpdate());
+    if (window.confirm(`Delete ${authorObj.first_name}?`)) {
+      deleteAuthorBooks(authorObj.firebaseKey).then(() => onUpdate());
     }
   };
   return (
@@ -34,7 +33,7 @@ function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
         </p>
         {onDashboard && (
           <>
-            <Button variant="danger" onClick={deleteThisReview} className="m-2">DELETE</Button>
+            <Button variant="danger" className="m-2">Delete</Button>
             <Button variant="primary" className="m-2">Edit</Button>
           </>
         )}
@@ -48,22 +47,20 @@ function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
     </Card>
   );
 }
-AuthReviewCard.defaultProps = {
-  onDashboard: false,
-};
+
 AuthReviewCard.propTypes = {
   reviewObj: PropTypes.shape({
     image: PropTypes.string,
     address: PropTypes.string,
     reviewProperty: PropTypes.string,
+    reviewPropertyManager: PropTypes.string,
     rating: PropTypes.shape({
-      overall: PropTypes.number,
       management: PropTypes.number,
+      overall: PropTypes.number,
       safety: PropTypes.number,
     }),
     firebaseKey: PropTypes.string,
   }).isRequired,
-  onDashboard: PropTypes.bool,
-  onUpdate: PropTypes.func.isRequired,
 };
+
 export default AuthReviewCard;
