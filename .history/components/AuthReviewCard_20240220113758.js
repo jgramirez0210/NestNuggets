@@ -48,22 +48,21 @@ function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
     </Card>
   );
 }
-AuthReviewCard.defaultProps = {
-  onDashboard: false,
-};
+
 AuthReviewCard.propTypes = {
   reviewObj: PropTypes.shape({
     image: PropTypes.string,
     address: PropTypes.string,
     reviewProperty: PropTypes.string,
+    reviewPropertyManager: PropTypes.string,
     rating: PropTypes.shape({
-      overall: PropTypes.number,
       management: PropTypes.number,
+      overall: PropTypes.number,
       safety: PropTypes.number,
-    }),
+    }).isRequired,
+    onDashboard: PropTypes.bool,
     firebaseKey: PropTypes.string,
   }).isRequired,
-  onDashboard: PropTypes.bool,
-  onUpdate: PropTypes.func.isRequired,
 };
+
 export default AuthReviewCard;

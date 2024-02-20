@@ -33,11 +33,11 @@ export default function ViewUserDetails() {
         <button type="button" onClick={() => firebase.auth().signOut()}>Sign Out</button>
       </div>
       <div className="d-flex flex-wrap">
-        {reviews.map((review) => (
-          <AuthReviewCard
-            key={review.firebaseKey}
-            reviewObj={review}
-            onDashboard
+      {reviews.map((review) => (
+  <AuthReviewCard
+    key={review.firebaseKey}
+    reviewObj={review}
+    onDashboard
             onUpdate={getReviewByUser}
           />
         ))}

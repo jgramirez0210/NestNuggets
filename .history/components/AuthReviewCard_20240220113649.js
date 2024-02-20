@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { onUpdate } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -6,7 +6,7 @@ import Link from 'next/link';
 import GetStars from './GetStars';
 import { deleteReview } from '../api/reviewData';
 
-function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
+function AuthReviewCard({ reviewObj, onDashboard }) {
   const deleteThisReview = () => {
     if (window.confirm(`Delete ${reviewObj.address}?`)) {
       deleteReview(reviewObj.firebaseKey).then(() => onUpdate());
@@ -48,22 +48,21 @@ function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
     </Card>
   );
 }
-AuthReviewCard.defaultProps = {
-  onDashboard: false,
-};
+
 AuthReviewCard.propTypes = {
   reviewObj: PropTypes.shape({
     image: PropTypes.string,
     address: PropTypes.string,
     reviewProperty: PropTypes.string,
+    reviewPropertyManager: PropTypes.string,
     rating: PropTypes.shape({
-      overall: PropTypes.number,
       management: PropTypes.number,
+      overall: PropTypes.number,
       safety: PropTypes.number,
-    }),
+    }).isRequired,
+    onDashboard: PropTypes.bool,
     firebaseKey: PropTypes.string,
   }).isRequired,
-  onDashboard: PropTypes.bool,
-  onUpdate: PropTypes.func.isRequired,
 };
+
 export default AuthReviewCard;

@@ -48,9 +48,7 @@ function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
     </Card>
   );
 }
-AuthReviewCard.defaultProps = {
-  onDashboard: false,
-};
+
 AuthReviewCard.propTypes = {
   reviewObj: PropTypes.shape({
     image: PropTypes.string,

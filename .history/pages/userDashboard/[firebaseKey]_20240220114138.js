@@ -38,7 +38,7 @@ export default function ViewUserDetails() {
             key={review.firebaseKey}
             reviewObj={review}
             onDashboard
-            onUpdate={getReviewByUser}
+            onUpdate={yourUpdateFunction}
           />
         ))}
       </div>

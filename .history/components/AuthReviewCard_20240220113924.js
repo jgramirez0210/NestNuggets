@@ -7,6 +7,7 @@ import GetStars from './GetStars';
 import { deleteReview } from '../api/reviewData';
 
 function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
+  onDashboard
   const deleteThisReview = () => {
     if (window.confirm(`Delete ${reviewObj.address}?`)) {
       deleteReview(reviewObj.firebaseKey).then(() => onUpdate());
@@ -48,9 +49,7 @@ function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
     </Card>
   );
 }
-AuthReviewCard.defaultProps = {
-  onDashboard: false,
-};
+
 AuthReviewCard.propTypes = {
   reviewObj: PropTypes.shape({
     image: PropTypes.string,

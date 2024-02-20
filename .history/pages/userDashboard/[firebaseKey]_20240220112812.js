@@ -37,7 +37,6 @@ export default function ViewUserDetails() {
           <AuthReviewCard
             key={review.firebaseKey}
             reviewObj={review}
-            onDashboard
             onUpdate={getReviewByUser}
           />
         ))}

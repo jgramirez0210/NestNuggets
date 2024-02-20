@@ -34,10 +34,10 @@ export default function ViewUserDetails() {
       </div>
       <div className="d-flex flex-wrap">
         {reviews.map((review) => (
-          <AuthReviewCard
-            key={review.firebaseKey}
-            reviewObj={review}
-            onDashboard
+  <AuthReviewCard
+    key={review.firebaseKey}
+    reviewObj={review}
+    onDashboard
             onUpdate={getReviewByUser}
           />
         ))}

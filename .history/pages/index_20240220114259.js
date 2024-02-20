@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../utils/context/authContext';
 import AuthReviewCard from '../components/AuthReviewCard';
-import { getReview, getReviewByUser } from '../api/reviewData';
+import { getReview } from '../api/reviewData';
 
 function Home() {
   const { user } = useAuth();
-  const [reviews, setReview] = useState([]);
+  const [reviewObj, setReview] = useState([]);
 
   const getAllTheReviews = useCallback(() => {
     getReview(user.uid).then(setReview);
@@ -18,12 +18,12 @@ function Home() {
   return (
     <div className="d-flex flex-wrap">
       {reviews.map((review) => (
-        <AuthReviewCard
-          key={review.firebaseKey}
-          reviewObj={review}
-          onDashboard
-          onUpdate={getReviewByUser}
-        />
+            <AuthReviewCard
+            key={review.firebaseKey}
+            reviewObj={review}
+            onDashboard
+            onUpdate={getReviewByUser}
+          />
       ))}
     </div>
   );
