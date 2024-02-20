@@ -10,7 +10,7 @@ function Home() {
   const getAllTheReviews = useCallback(() => {
     getReview(user.uid).then(setReview);
   }, [user.uid]);
-
+  
   useEffect(() => {
     getAllTheReviews();
   }, [getAllTheReviews]);

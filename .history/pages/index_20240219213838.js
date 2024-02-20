@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../utils/context/authContext';
 import AuthReviewCard from '../components/AuthReviewCard';
 import { getReview } from '../api/reviewData';
@@ -7,9 +7,9 @@ function Home() {
   const { user } = useAuth();
   const [reviewObj, setReview] = useState([]);
 
-  const getAllTheReviews = useCallback(() => {
+  const getAllTheReviews = () => {
     getReview(user.uid).then(setReview);
-  }, [user.uid]);
+  };
 
   useEffect(() => {
     getAllTheReviews();
