@@ -22,8 +22,8 @@ const getReview = () => new Promise((resolve, reject) => {
 });
 
 // GET REVIEWS BY UID
-const getReviewByUser = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/review.json?orderBy="uid"&equalTo="${uid}"`, {
+const getBooks = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/books.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -75,5 +75,5 @@ const updateRating = (firebaseKey) => new Promise((resolve, reject) => {
 });
 
 export {
-  getReview, createReview, updateReview, updateRating, getReviewByUser,
+  getReview, createReview, updateReview, updateRating,
 };

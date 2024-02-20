@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import firebase from 'firebase/app';
 import { useAuth } from '../../utils/context/authContext';
 import 'firebase/auth';
-import { getReviewByUser } from '../../api/reviewData';
+import { getReview } from '../../api/reviewData';
 import AuthReviewCard from '../../components/AuthReviewCard';
 
 export default function ViewUserDetails() {
@@ -10,12 +10,13 @@ export default function ViewUserDetails() {
   const { user } = useAuth();
 
   useEffect(() => {
-    getReviewByUser(user.uid).then((fetchedReviews) => {
+    getReview(user.uid).then((fetchedReviews) => {
+      console.warn('Reviews:', fetchedReviews);
       setReview(fetchedReviews);
     }).catch((error) => {
       console.error('Error fetching reviews:', error);
     });
-  }, [user.uid]);
+  }, [user.uid]); // `user.uid` as dependency
 
   return (
     <div className="mt-5 d-flex flex-wrap">
@@ -37,7 +38,7 @@ export default function ViewUserDetails() {
           <AuthReviewCard
             key={review.firebaseKey}
             reviewObj={review}
-            onUpdate={getReviewByUser}
+            onUpdate={getReview}
           />
         ))}
       </div>

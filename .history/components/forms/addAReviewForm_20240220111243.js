@@ -33,7 +33,7 @@ function AddAReviewForm({ obj }) {
       setFormInput({
         ...obj,
         email: obj.email || '',
-        uid: user.uid,
+        uid: user.uid
       });
     }
   }, [obj, user]);

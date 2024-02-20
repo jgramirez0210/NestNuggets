@@ -1,22 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import firebase from 'firebase/app';
 import { useAuth } from '../../utils/context/authContext';
 import 'firebase/auth';
-import { getReviewByUser } from '../../api/reviewData';
-import AuthReviewCard from '../../components/AuthReviewCard';
+import { getReview } from '../../api/reviewData';
 
 export default function ViewUserDetails() {
-  const [reviews, setReview] = useState([]);
   const { user } = useAuth();
-
-  useEffect(() => {
-    getReviewByUser(user.uid).then((fetchedReviews) => {
-      setReview(fetchedReviews);
-    }).catch((error) => {
-      console.error('Error fetching reviews:', error);
-    });
-  }, [user.uid]);
-
+  const getAllTheBooks = () => {
+    getReview(user.uid).then(setBooks);
+  };
   return (
     <div className="mt-5 d-flex flex-wrap">
       <div className="text-white ms-5 details">
@@ -33,11 +25,11 @@ export default function ViewUserDetails() {
         <button type="button" onClick={() => firebase.auth().signOut()}>Sign Out</button>
       </div>
       <div className="d-flex flex-wrap">
-        {reviews.map((review) => (
+        {reviewObj.map((review) => (
           <AuthReviewCard
             key={review.firebaseKey}
             reviewObj={review}
-            onUpdate={getReviewByUser}
+            onUpdate={getAllTheBooks}
           />
         ))}
       </div>

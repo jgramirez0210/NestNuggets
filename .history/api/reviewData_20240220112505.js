@@ -21,16 +21,22 @@ const getReview = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// GET REVIEWS BY UID
-const getReviewByUser = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/review.json?orderBy="uid"&equalTo="${uid}"`, {
+// GET REVIEWS
+const getReview = () => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/review.json`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => {
+      if (data) {
+        resolve(Object.values(data));
+      } else {
+        resolve([]);
+      }
+    })
     .catch(reject);
 });
 // CREATE REVIEW
@@ -75,5 +81,5 @@ const updateRating = (firebaseKey) => new Promise((resolve, reject) => {
 });
 
 export {
-  getReview, createReview, updateReview, updateRating, getReviewByUser,
+  getReview, createReview, updateReview, updateRating,
 };
