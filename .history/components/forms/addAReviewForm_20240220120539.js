@@ -52,7 +52,7 @@ function AddAReviewForm({ obj }) {
     const dateTime = now.toISOString();
 
     if (obj && obj.firebaseKey) {
-      updateReview(obj.firebaseKey, { ...formInput, dateTime, uid: user.uid }).then(() => router.push(`/review${obj.firebaseKey}`));
+      updateReview(obj.firebaseKey, { ...formInput, dateTime, uid: user.uid }).then(() => router.push(`/review${obj.firebaseKey`);
     } else {
       createReview({ ...formInput, dateTime, uid: user.uid })
         .then((firebaseKey) => {

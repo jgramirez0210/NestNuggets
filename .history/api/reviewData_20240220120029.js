@@ -34,18 +34,17 @@ const getReviewByUser = (uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 // CREATE REVIEW
-const createReview = (payload) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/review.json`, {
+const createReview = (reviewData) => {
+  return fetch(`${endpoint}/review.json`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(reviewData),
   })
     .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
-});
+    .then((data) => data.name);
+};
 
 // UPDATE REVIEW
 const updateReview = (payload) => new Promise((resolve, reject) => {

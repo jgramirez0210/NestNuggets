@@ -60,20 +60,6 @@ const updateReview = (payload) => new Promise((resolve, reject) => {
     .then(resolve)
     .catch(reject);
 });
-
-// DELETE REVIEW
-const deleteReview = (firebaseKey) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/review/${firebaseKey}.json`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => resolve((data)))
-    .catch(reject);
-});
-
 //  UPDATE RATING
 const updateRating = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/review/${firebaseKey}.rating.json`, {
@@ -89,5 +75,5 @@ const updateRating = (firebaseKey) => new Promise((resolve, reject) => {
 });
 
 export {
-  getReview, createReview, updateReview, updateRating, getReviewByUser, deleteReview,
+  getReview, createReview, updateReview, updateRating, getReviewByUser,
 };
