@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
+import { Fa } from 'react-ratings-declarative';
 import { useAuth } from '../../utils/context/authContext';
 import {
   createReview, updateReview, getReview,
@@ -123,7 +124,16 @@ function AddAReviewForm({ obj }) {
       {/* UPLOAD HOME INSPECTION DOCS */}
       {/* UPLOAD PHOTOS */}
       {/* RATING */}
-
+      <div className={Ratings}>
+        <p>Rating</p>
+        <div>
+          <FaStar/>
+          <FaStar/>
+          <FaStar/>
+          <FaStar/>
+          <FaStar/>
+        </div>
+      </div>
       {/* Star Rating Inputs */}
       {/* RENTAL DURATION */}
       <FloatingLabel controlId="floatingInput1" label="How Long Did You Rent For?" className="mb-3">

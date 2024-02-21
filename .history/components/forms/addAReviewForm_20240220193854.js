@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import { useAuth } from '../../utils/context/authContext';
 import {
   createReview, updateReview, getReview,
 } from '../../api/reviewData';
-
+import styles from './Ratings.module.css';
 const initialState = {
   address: '',
   photo: '',
@@ -123,7 +124,12 @@ function AddAReviewForm({ obj }) {
       {/* UPLOAD HOME INSPECTION DOCS */}
       {/* UPLOAD PHOTOS */}
       {/* RATING */}
+      <div className={styles.Ratings}>
+        <p>Rating</p>
+        <div>
 
+        </div>
+      </div>
       {/* Star Rating Inputs */}
       {/* RENTAL DURATION */}
       <FloatingLabel controlId="floatingInput1" label="How Long Did You Rent For?" className="mb-3">

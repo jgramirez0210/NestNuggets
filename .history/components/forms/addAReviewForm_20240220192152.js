@@ -123,7 +123,13 @@ function AddAReviewForm({ obj }) {
       {/* UPLOAD HOME INSPECTION DOCS */}
       {/* UPLOAD PHOTOS */}
       {/* RATING */}
-
+      {/* <div className={Ratings}>
+        <p>Rating</p>
+        <div>
+          <FaRegStar />
+          <IoIosStar />
+        </div>
+      </div> */}
       {/* Star Rating Inputs */}
       {/* RENTAL DURATION */}
       <FloatingLabel controlId="floatingInput1" label="How Long Did You Rent For?" className="mb-3">
