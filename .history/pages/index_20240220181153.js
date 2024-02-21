@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../utils/context/authContext';
 import AuthReviewCard from '../components/AuthReviewCard';
-import { getReview } from '../api/reviewData';
+import { getReview, getReviewByUser } from '../api/reviewData';
 
 function Home() {
   const { user } = useAuth();
@@ -22,6 +22,7 @@ function Home() {
           key={review.firebaseKey}
           reviewObj={review}
           onDashboard={false}
+          onUpdate={}
         />
       ))}
     </div>

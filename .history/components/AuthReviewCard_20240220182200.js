@@ -7,11 +7,10 @@ import GetStars from './GetStars';
 import { deleteReview } from '../api/reviewData';
 
 function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
+  const 
   const deleteThisReview = () => {
     if (window.confirm(`Delete ${reviewObj.address}?`)) {
-      deleteReview(reviewObj.firebaseKey).then(() => {
-        onUpdate();
-      });
+      deleteReview(reviewObj.firebaseKey).then(() => onUpdate());
     }
   };
   return (
