@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import firebase from 'firebase/app';
 import { useAuth } from '../../utils/context/authContext';
 import 'firebase/auth';
@@ -9,17 +9,13 @@ export default function ViewUserDetails() {
   const [reviews, setReview] = useState([]);
   const { user } = useAuth();
 
-  const fetchReviews = useCallback(() => {
+  useEffect(() => {
     getReviewByUser(user.uid).then((fetchedReviews) => {
       setReview(fetchedReviews);
     }).catch((error) => {
       console.error('Error fetching reviews:', error);
     });
   }, [user.uid]);
-
-  useEffect(() => {
-    fetchReviews();
-  }, [fetchReviews]);
 
   return (
     <div className="mt-5 d-flex flex-wrap">
@@ -42,7 +38,7 @@ export default function ViewUserDetails() {
             key={review.firebaseKey}
             reviewObj={review}
             onDashboard
-            onUpdate={fetchReviews}
+            onUpdate={getReviewByUser}
           />
         ))}
       </div>

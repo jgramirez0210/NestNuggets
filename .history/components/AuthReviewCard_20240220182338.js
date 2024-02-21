@@ -10,6 +10,7 @@ function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
   const deleteThisReview = () => {
     if (window.confirm(`Delete ${reviewObj.address}?`)) {
       deleteReview(reviewObj.firebaseKey).then(() => {
+        // Call the onUpdate function to update the state
         onUpdate();
       });
     }

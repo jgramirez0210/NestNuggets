@@ -34,8 +34,8 @@ const getReviewByUser = (uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 // CREATE REVIEW
-const createReview = (payload) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/review.json`, {
+const createBook = (payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/books.json`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,22 +43,7 @@ const createReview = (payload) => new Promise((resolve, reject) => {
     body: JSON.stringify(payload),
   })
     .then((response) => response.json())
-    .then((data) => {
-      // data.name is the firebaseKey
-      const firebaseKey = data.name;
-      // Add the firebaseKey to the review data
-      const reviewWithKey = { ...payload, firebaseKey };
-      // Update the review in Firebase to include the firebaseKey
-      return fetch(`${endpoint}/review/${firebaseKey}.json`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(reviewWithKey),
-      });
-    })
-    .then((response) => response.json())
-    .then(resolve)
+    .then((data) => resolve(data))
     .catch(reject);
 });
 
