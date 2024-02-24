@@ -86,7 +86,7 @@ const deleteReview = (firebaseKey) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-//  UPDATE REVIEW RATING
+//  UPDATE RATING
 const updateRating = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/review/${firebaseKey}.rating.json`, {
     method: 'PATCH',

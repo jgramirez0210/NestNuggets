@@ -44,7 +44,9 @@ const createReview = (payload) => new Promise((resolve, reject) => {
   })
     .then((response) => response.json())
     .then((data) => {
+      // data.name is the firebaseKey
       const firebaseKey = data.name;
+      // Add the firebaseKey to the review data
       const reviewWithKey = { ...payload, firebaseKey };
       return fetch(`${endpoint}/review/${firebaseKey}.json`, {
         method: 'PUT',
@@ -59,7 +61,7 @@ const createReview = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// UPDATE PROPERTY REVIEW
+// UPDATE REVIEW
 const updateReview = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/review/${payload.firebaseKey}.json`, {
     method: 'PATCH',
@@ -73,7 +75,7 @@ const updateReview = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// DELETE PROPERTY REVIEW
+// DELETE REVIEW
 const deleteReview = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/review/${firebaseKey}.json`, {
     method: 'DELETE',
@@ -86,7 +88,7 @@ const deleteReview = (firebaseKey) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-//  UPDATE REVIEW RATING
+//  UPDATE RATING
 const updateRating = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/review/${firebaseKey}.rating.json`, {
     method: 'PATCH',
