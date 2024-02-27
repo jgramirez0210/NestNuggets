@@ -6,7 +6,7 @@ import Link from 'next/link';
 import GetStars from './GetStars';
 import { deleteReview } from '../api/reviewData';
 
-function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
+function SingleReviewCard({ reviewObj, onDashboard, onUpdate }) {
   const deleteThisReview = () => {
     if (window.confirm(`Delete ${reviewObj.address}?`)) {
       deleteReview(reviewObj.firebaseKey).then(() => {
@@ -33,6 +33,15 @@ function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
               <span>Safety: {GetStars(reviewObj.rating.safety)}</span>
             </>
           )}
+        </p>
+        <p>
+          {reviewObj.monthlyPrice}
+        </p>
+        <p>
+          {reviewObj.rentalDuration}
+        </p>
+        <p>
+          {reviewObj.dateTime}
         </p>
         {onDashboard && (
           <>

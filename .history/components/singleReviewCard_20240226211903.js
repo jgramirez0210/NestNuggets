@@ -34,6 +34,13 @@ function AuthReviewCard({ reviewObj, onDashboard, onUpdate }) {
             </>
           )}
         </p>
+        <p>
+          {reviewObj.monthlyPrice}
+        </p>
+        <p>
+          {reviewObj.rentalDuration}
+        </p>
+        
         {onDashboard && (
           <>
             <Button variant="danger" onClick={deleteThisReview} className="m-2">DELETE</Button>
