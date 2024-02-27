@@ -21,15 +21,55 @@ const initialState = {
   rentalDuration: '',
 };
 
+AddTeamMemberForm.defaultProps = {
+  obj: initialState,
+};
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormInput((prevState) => ({
+    ...prevState,
+    [name]: value,
+  }));
+};
+
+useEffect(() => {
+  getPlayer(user.uid).then(setPlayers);
+
+  if (obj && obj.firebaseKey) setFormInput(obj);
+}, [obj, user]);
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  if (formInput.firebaseKey) {
+    updatePlayer(formInput).then(() => router.push('/team/new'));
+  } else {
+    const payload = { ...formInput, uid: user.uid };
+    createPlayer(payload).then(({ name }) => {
+      const patchPayload = { firebaseKey: name };
+      updatePlayer(patchPayload).then(() => {
+        router.push('/team/new');
+      });
+    });
+  }
+};
 function AddAReviewForm({ obj }) {
   const [formInput, setFormInput] = useState(initialState);
   const [, setReview] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
 
-  AddAReviewForm.defaultProps = {
-    obj: initialState,
-  };
+  useEffect(() => {
+    getReview(user.uid).then(setReview);
+
+    if (obj && obj.firebaseKey) {
+      setFormInput({
+        ...obj,
+        email: obj.email || '',
+        uid: user.uid,
+      });
+    }
+  }, [obj, user]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormInput((prevState) => ({
@@ -38,27 +78,22 @@ function AddAReviewForm({ obj }) {
     }));
   };
 
-  useEffect(() => {
-    getReview(user.uid).then(setReview);
-
-    if (obj && obj.firebaseKey) setFormInput(obj);
-  }, [obj, user]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formInput.firebaseKey) {
-      updateReview(formInput).then(() => router.push('/review/new'));
+    const now = new Date();
+    const dateTime = now.toISOString();
+
+    if (obj && obj.firebaseKey) {
+      updateReview(obj.firebaseKey, { ...formInput, dateTime, uid: user.uid }).then(() => router.push(`/review/edit/${obj.firebaseKey}`));
     } else {
-      const payload = { ...formInput, uid: user.uid };
-      createReview(payload).then(({ name }) => {
-        const patchPayload = { firebaseKey: name };
-        updateReview(patchPayload).then(() => {
-          router.push('/review/new');
+      const payload = {}
+      createReview({ ...formInput, dateTime, uid: user.uid })
+        .then((firebaseKey) => {
+          console.warn('New review created with firebaseKey:', firebaseKey);
+          router.push('/');
         });
-      });
     }
   };
-
   return (
     <Form onSubmit={handleSubmit}>
       <h2 className="text-white mt-5">{formInput.firebaseKey ? 'Update' : 'Create'} Review</h2>
