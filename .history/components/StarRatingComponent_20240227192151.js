@@ -14,10 +14,12 @@ const StarRating = ({ firebaseKey: initialFirebaseKey, reviews }) => {
   const [managementHover, setManagementHover] = useState(null);
 
   useEffect(() => {
-    if (firebaseKey && (overviewRating || safetyRating || managementRating)) {
-      updateRating(firebaseKey, overviewRating, safetyRating, managementRating);
-    }
-  }, [firebaseKey, overviewRating, safetyRating, managementRating]);
+    reviews.forEach((review) => {
+      if (review.category === category) {
+        setFirebaseKey(review.firebaseKey);
+      }
+    });
+  }, [category, reviews]);
 
   const handleRating = (value, newCategory) => {
     setCategory(newCategory);
