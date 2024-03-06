@@ -1,0 +1,39 @@
+@import 'bootstrap/dist/css/bootstrap.css';
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #efefef;
+}
+nav-bar {
+  background-color: #efefef;
+  padding-top:56px;
+}
+input[type="radio"] {
+  display:none;
+}
+.star{
+  cursor: pointer;
+  transition: color 200ms;
+}
+card-body {
+  background-color: #efdecd;
+}
+.main-content {
+  padding-top: 56px; /* Adjust this value to match the height of your navbar */
+}
