@@ -32,6 +32,7 @@ function AuthReviewCard({
         console.log(`Number of ratings: ${ratingsCount}`);
         setHelpfulReviews(starRating);
         setNumberOfRatings(ratingsCount);
+        
       });
   }, [reviewObj]);
 
@@ -59,9 +60,7 @@ function AuthReviewCard({
             </Link>
             <p>
               Average rating: {helpfulReviews}
-              <p className="rating-count">
-                {numberOfRatings} people found this helpful.
-              </p>
+              {numberOfRatings} people found this helpful.
             </p>
           </>
         )}

@@ -137,7 +137,12 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
       'Content-Type': 'application/json',
     },
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
     .then((data) => {
       const ratings = [];
 
@@ -150,12 +155,13 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
           });
         });
       }
+
+      console.log('Ratings Promise:', ratings);
       resolve(ratings);
     })
     .catch((error) => {
       reject(error);
     });
-});
 
 // Make sure to call the function with a valid reviewId
 getWasThisReviewHelpful('some-review-id');

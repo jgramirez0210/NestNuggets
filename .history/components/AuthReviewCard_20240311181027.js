@@ -5,7 +5,6 @@ import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import getWasThisHelpfulReviewById from './WasThisHelpfulComponent';
 import { deleteReview, getWasThisReviewHelpful } from '../api/reviewData';
-import GetStars from './GetStars';
 
 function AuthReviewCard({
   reviewObj, onDashboard, onUpdate,
@@ -14,24 +13,49 @@ function AuthReviewCard({
     onUpdate: () => {},
     onDashboard: false,
   };
-  const [helpfulReviews, setHelpfulReviews] = useState(0);
-  const [numberOfRatings, setNumberOfRatings] = useState(0);
-  const countRatings = (data) => {
-    const ratings = data.filter((rating) => !Number.isNaN(rating));
-    return ratings.length;
-  };
-
+  const [helpfulReviews, setHelpfulReviews] = useState([]);
   useEffect(() => {
+    console.log('Expected reviewId (firebaseKey):', reviewObj.firebaseKey); // Confirm the key
+
     getWasThisReviewHelpful(reviewObj.firebaseKey)
       .then((data) => {
-        const ratings = data.filter((rating) => !Number.isNaN(rating));
-        const sum = ratings.reduce((acc, curr) => acc + curr, 0);
-        const averageRating = ratings.length ? sum / ratings.length : 0;
-        const starRating = GetStars(averageRating);
-        const ratingsCount = countRatings(data);
-        console.log(`Number of ratings: ${ratingsCount}`);
-        setHelpfulReviews(starRating);
-        setNumberOfRatings(ratingsCount);
+        console.log('Data from wasThisReviewHelpful:', data);
+        const allRatings = [];
+        Object.values(data).forEach((firstLayer) => {
+          Object.values(firstLayer).forEach((secondLayer) => {
+            if (secondLayer.reviewId === reviewId) {
+              allRatings.push(secondLayer.rating);
+            }
+          });
+        });
+        const averageRating = allRatings.length
+          ? allRatings.reduce((acc, curr) => acc + curr, 0) / allRatings.length
+          : 0;
+        console.log('Average rating:', averageRating);
+      })
+        Object.values(data).forEach((reviewGroup) => {
+          Object.values(reviewGroup).forEach((reviewDetails) => {
+            // Log each review detail to confirm the structure
+            console.log('Review details:', reviewDetails);
+            // Check if reviewId matches firebaseKey and if rating is a number
+            if (reviewDetails.reviewId === reviewObj.firebaseKey && !Number.isNaN(Number(reviewDetails.rating))) {
+              allRatings.push(Number(reviewDetails.rating));
+            }
+          });
+        });
+
+        console.log('Collected Ratings:', allRatings); // Check the ratings collected
+
+        // Calculate the average rating if there are ratings collected
+        const averageRating = allRatings.length
+          ? allRatings.reduce((acc, curr) => acc + curr, 0) / allRatings.length
+          : 0;
+
+        console.log('Calculated Average Rating:', averageRating); // Verify the average
+        setHelpfulReviews(averageRating); // Update the state with the average rating
+      })
+      .catch((error) => {
+        console.error('Error fetching wasThisReviewHelpful data:', error);
       });
   }, [reviewObj]);
 
@@ -59,9 +83,6 @@ function AuthReviewCard({
             </Link>
             <p>
               Average rating: {helpfulReviews}
-              <p className="rating-count">
-                {numberOfRatings} people found this helpful.
-              </p>
             </p>
           </>
         )}

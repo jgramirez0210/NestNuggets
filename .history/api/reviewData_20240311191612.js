@@ -141,15 +141,15 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
     .then((data) => {
       const ratings = [];
 
-      if (data) {
-        Object.values(data).forEach((review) => {
-          Object.values(review).forEach((detail) => {
-            if (detail.reviewId === reviewId) {
-              ratings.push(detail.rating);
-            }
-          });
-        });
-      }
+      // if (data) {
+      //   Object.values(data).forEach((review) => {
+      //     Object.values(review).forEach((detail) => {
+      //       if (detail.reviewId === reviewId) {
+      //         ratings.push(detail.rating);
+      //       }
+      //     });
+      //   });
+      // }
       resolve(ratings);
     })
     .catch((error) => {

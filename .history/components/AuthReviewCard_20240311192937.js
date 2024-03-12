@@ -28,10 +28,10 @@ function AuthReviewCard({
         const sum = ratings.reduce((acc, curr) => acc + curr, 0);
         const averageRating = ratings.length ? sum / ratings.length : 0;
         const starRating = GetStars(averageRating);
-        const ratingsCount = countRatings(data);
-        console.log(`Number of ratings: ${ratingsCount}`);
+        const numberOfRatings = countRatings(data);
+        console.log(`Number of ratings: ${numberOfRatings}`);
         setHelpfulReviews(starRating);
-        setNumberOfRatings(ratingsCount);
+        setNumberOfRatings(ratingsCount)
       });
   }, [reviewObj]);
 
@@ -59,9 +59,7 @@ function AuthReviewCard({
             </Link>
             <p>
               Average rating: {helpfulReviews}
-              <p className="rating-count">
-                {numberOfRatings} people found this helpful.
-              </p>
+              {numberOfRatings} people found this helpful.
             </p>
           </>
         )}

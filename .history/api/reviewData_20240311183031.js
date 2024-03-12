@@ -137,8 +137,11 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
       'Content-Type': 'application/json',
     },
   })
-    .then((response) => response.json())
+    .then((response) => {
+      return response.json();
+    })
     .then((data) => {
+      console.log('Received data:', data); // Log the received data
       const ratings = [];
 
       if (data) {
@@ -150,6 +153,7 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
           });
         });
       }
+      console.log('Ratings Promise:', ratings); // Log the ratings collected
       resolve(ratings);
     })
     .catch((error) => {

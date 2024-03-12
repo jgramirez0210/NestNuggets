@@ -139,6 +139,7 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
   })
     .then((response) => response.json())
     .then((data) => {
+      console.log('Received data:', data);
       const ratings = [];
 
       if (data) {
@@ -150,6 +151,7 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
           });
         });
       }
+      console.log('Ratings Promise:', ratings);
       resolve(ratings);
     })
     .catch((error) => {

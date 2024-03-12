@@ -5,7 +5,6 @@ import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import getWasThisHelpfulReviewById from './WasThisHelpfulComponent';
 import { deleteReview, getWasThisReviewHelpful } from '../api/reviewData';
-import GetStars from './GetStars';
 
 function AuthReviewCard({
   reviewObj, onDashboard, onUpdate,
@@ -15,11 +14,6 @@ function AuthReviewCard({
     onDashboard: false,
   };
   const [helpfulReviews, setHelpfulReviews] = useState(0);
-  const [numberOfRatings, setNumberOfRatings] = useState(0);
-  const countRatings = (data) => {
-    const ratings = data.filter((rating) => !Number.isNaN(rating));
-    return ratings.length;
-  };
 
   useEffect(() => {
     getWasThisReviewHelpful(reviewObj.firebaseKey)
@@ -27,11 +21,8 @@ function AuthReviewCard({
         const ratings = data.filter((rating) => !Number.isNaN(rating));
         const sum = ratings.reduce((acc, curr) => acc + curr, 0);
         const averageRating = ratings.length ? sum / ratings.length : 0;
-        const starRating = GetStars(averageRating);
-        const ratingsCount = countRatings(data);
-        console.log(`Number of ratings: ${ratingsCount}`);
+        const starRating = getStars(averageRating);
         setHelpfulReviews(starRating);
-        setNumberOfRatings(ratingsCount);
       });
   }, [reviewObj]);
 
@@ -59,9 +50,6 @@ function AuthReviewCard({
             </Link>
             <p>
               Average rating: {helpfulReviews}
-              <p className="rating-count">
-                {numberOfRatings} people found this helpful.
-              </p>
             </p>
           </>
         )}
