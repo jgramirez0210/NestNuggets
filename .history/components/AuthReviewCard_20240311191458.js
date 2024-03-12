@@ -5,7 +5,6 @@ import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import getWasThisHelpfulReviewById from './WasThisHelpfulComponent';
 import { deleteReview, getWasThisReviewHelpful } from '../api/reviewData';
-import GetStars from './GetStars';
 
 function AuthReviewCard({
   reviewObj, onDashboard, onUpdate,
@@ -15,25 +14,29 @@ function AuthReviewCard({
     onDashboard: false,
   };
   const [helpfulReviews, setHelpfulReviews] = useState(0);
-  const [numberOfRatings, setNumberOfRatings] = useState(0);
-  const countRatings = (data) => {
-    const ratings = data.filter((rating) => !Number.isNaN(rating));
-    return ratings.length;
-  };
 
   useEffect(() => {
+    console.warn('update state for helpful reviews ', helpfulReviews);
     getWasThisReviewHelpful(reviewObj.firebaseKey)
       .then((data) => {
-        const ratings = data.filter((rating) => !Number.isNaN(rating));
-        const sum = ratings.reduce((acc, curr) => acc + curr, 0);
-        const averageRating = ratings.length ? sum / ratings.length : 0;
-        const starRating = GetStars(averageRating);
-        const ratingsCount = countRatings(data);
-        console.log(`Number of ratings: ${ratingsCount}`);
-        setHelpfulReviews(starRating);
-        setNumberOfRatings(ratingsCount);
+        console.warn('Data from promise:', data);
+        console.warn('First item in data:', Object.values(data)[0]);
+        const ratings = Object.values(data).map(({ rating }) => parseFloat(rating)).filter((rating) => !Number.isNaN(rating));
+        console.warn('all ratings:', ratings);
+        const sum = ratings.reduce((acc, curr) => {
+          console.log('Accumulator:', acc, 'Current:', curr);
+          const newSum = acc + curr;
+          console.log('New sum:', newSum);
+          return newSum;
+        }, 0);
+        console.log('Sum:', sum);
+        const averageRating = ratings.length
+          ? sum / ratings.length
+          : 0;
+        console.log('Average rating:', averageRating);
+        setHelpfulReviews(averageRating);
       });
-  }, [reviewObj]);
+  }, []);
 
   const deleteThisReview = () => {
     if (window.confirm(`Delete ${reviewObj.address}?`)) {
@@ -59,9 +62,6 @@ function AuthReviewCard({
             </Link>
             <p>
               Average rating: {helpfulReviews}
-              <p className="rating-count">
-                {numberOfRatings} people found this helpful.
-              </p>
             </p>
           </>
         )}

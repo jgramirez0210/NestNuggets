@@ -5,7 +5,6 @@ import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import getWasThisHelpfulReviewById from './WasThisHelpfulComponent';
 import { deleteReview, getWasThisReviewHelpful } from '../api/reviewData';
-import GetStars from './GetStars';
 
 function AuthReviewCard({
   reviewObj, onDashboard, onUpdate,
@@ -15,24 +14,33 @@ function AuthReviewCard({
     onDashboard: false,
   };
   const [helpfulReviews, setHelpfulReviews] = useState(0);
-  const [numberOfRatings, setNumberOfRatings] = useState(0);
-  const countRatings = (data) => {
-    const ratings = data.filter((rating) => !Number.isNaN(rating));
-    return ratings.length;
-  };
 
   useEffect(() => {
-    getWasThisReviewHelpful(reviewObj.firebaseKey)
-      .then((data) => {
-        const ratings = data.filter((rating) => !Number.isNaN(rating));
-        const sum = ratings.reduce((acc, curr) => acc + curr, 0);
-        const averageRating = ratings.length ? sum / ratings.length : 0;
-        const starRating = GetStars(averageRating);
-        const ratingsCount = countRatings(data);
-        console.log(`Number of ratings: ${ratingsCount}`);
-        setHelpfulReviews(starRating);
-        setNumberOfRatings(ratingsCount);
-      });
+    console.warn('update state for helpful reviews ', helpfulReviews);
+    
+wasThisReviewHelpful
+-Nrcb8NOEHk0E-UpIHcm
+-NsZSeUQJBe13kXLfEEt
+rating
+:
+5
+reviewId
+:
+"-Nrcb8NOEHk0E-UpIHcm"
+uid
+:
+"Mrh1qmhUnBPK5EDOVtQEcLAWuX02"
+-NsZShrUVRwucCTqh7eZ
+rating
+:
+1
+reviewId
+:
+"-Nrcb8NOEHk0E-UpIHcm"
+uid
+:
+"TBLil11Fa3U8lZLta6BWYfpLpNg2"
+
   }, [reviewObj]);
 
   const deleteThisReview = () => {
@@ -59,9 +67,6 @@ function AuthReviewCard({
             </Link>
             <p>
               Average rating: {helpfulReviews}
-              <p className="rating-count">
-                {numberOfRatings} people found this helpful.
-              </p>
             </p>
           </>
         )}

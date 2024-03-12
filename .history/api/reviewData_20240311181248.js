@@ -129,15 +129,18 @@ const updateWasThisHelpfulReviewRating = (payload) => new Promise((resolve, reje
 });
 // GET WAS THIS REVIEW HELPFUL
 const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
-  console.log('Function getWasThisReviewHelpful is called with reviewId:', reviewId);
-
   fetch(`${endpoint}/wasThisReviewHelpful.json`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
     .then((data) => {
       const ratings = [];
 
@@ -150,6 +153,7 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
           });
         });
       }
+
       resolve(ratings);
     })
     .catch((error) => {

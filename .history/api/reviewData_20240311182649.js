@@ -137,7 +137,8 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
       'Content-Type': 'application/json',
     },
   })
-    .then((response) => response.json())
+    .then((response) => {
+    })
     .then((data) => {
       const ratings = [];
 
@@ -150,6 +151,8 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
           });
         });
       }
+
+      console.warn('Ratings:', ratings);
       resolve(ratings);
     })
     .catch((error) => {
@@ -157,8 +160,6 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
     });
 });
 
-// Make sure to call the function with a valid reviewId
-getWasThisReviewHelpful('some-review-id');
 
 export {
   getReview, createReview, updateReview, getReviewByUser, deleteReview, getSingleReview, createWasThisHelpfulReviewRating, updateWasThisHelpfulReviewRating, getWasThisReviewHelpful,

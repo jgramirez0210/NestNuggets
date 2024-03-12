@@ -128,9 +128,7 @@ const updateWasThisHelpfulReviewRating = (payload) => new Promise((resolve, reje
     .catch(reject);
 });
 // GET WAS THIS REVIEW HELPFUL
-const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
-  console.log('Function getWasThisReviewHelpful is called with reviewId:', reviewId);
-
+const getWasThisReviewHelpful = (reviewId) => new Promise((resolve) => {
   fetch(`${endpoint}/wasThisReviewHelpful.json`, {
     method: 'GET',
     headers: {
@@ -150,10 +148,9 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
           });
         });
       }
+
+      console.warn('Ratings:', ratings); // Add this line
       resolve(ratings);
-    })
-    .catch((error) => {
-      reject(error);
     });
 });
 

@@ -59,7 +59,7 @@ function AuthReviewCard({
             </Link>
             <p>
               Average rating: {helpfulReviews}
-              <p className="rating-count">
+              <p className>
                 {numberOfRatings} people found this helpful.
               </p>
             </p>

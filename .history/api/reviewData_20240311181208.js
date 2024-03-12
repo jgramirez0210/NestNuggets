@@ -137,8 +137,15 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
       'Content-Type': 'application/json',
     },
   })
-    .then((response) => response.json())
+    .then((response) => {
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok'); // Throw an error if network response is not ok
+      }
+      return response.json();
+    })
     .then((data) => {
+      console.log('Received data:', data); // Log the received data
       const ratings = [];
 
       if (data) {
@@ -149,10 +156,15 @@ const getWasThisReviewHelpful = (reviewId) => new Promise((resolve, reject) => {
             }
           });
         });
+      } else {
+        console.log('No data returned from the server'); // Log if no data is returned
       }
+
+      console.log('Ratings:', ratings); // Log the ratings collected
       resolve(ratings);
     })
     .catch((error) => {
+      console.error('Error in getWasThisReviewHelpful function:', error); // Log any errors caught
       reject(error);
     });
 });
