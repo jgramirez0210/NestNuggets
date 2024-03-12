@@ -20,16 +20,16 @@ const WasThisReviewHelpful = ({ firebaseKey: initialFirebaseKey, reviews = [] })
       reviewId: initialFirebaseKey,
       uid,
     };
-
+  
     // Fetch all ratings for the current review
     const ratingsObject = await getWasThisReviewHelpful(initialFirebaseKey);
-
+  
     // Convert ratings object to array and extract the innermost objects
     const ratings = ratingsObject ? Object.values(ratingsObject).flatMap(Object.values) : [];
-
+  
     // Check if the current user has already rated this review
     const existingRating = ratings.find((rating) => rating.uid === uid && rating.reviewId === initialFirebaseKey);
-
+  
     if (existingRating) {
       // User has already rated this review, update their rating
       await updateWasThisHelpfulReviewRating(existingRating.id, payload);
@@ -37,10 +37,10 @@ const WasThisReviewHelpful = ({ firebaseKey: initialFirebaseKey, reviews = [] })
       // User has not rated this review, create a new rating
       await createWasThisHelpfulReviewRating(payload);
     }
-
+  
     setHasRated(true);
   };
-
+  
   return (
     <div className="helpful-rating">
       <p>Was this helpful?</p>

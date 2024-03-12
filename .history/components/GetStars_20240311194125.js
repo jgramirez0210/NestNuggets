@@ -9,7 +9,7 @@ export default function GetStars(rating) {
           className="star"
           color="#ffc107"
         />
-      </span>,
+      </span>
     );
   }
   return stars;

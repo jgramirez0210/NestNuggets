@@ -20,13 +20,13 @@ const WasThisReviewHelpful = ({ firebaseKey: initialFirebaseKey, reviews = [] })
       reviewId: initialFirebaseKey,
       uid,
     };
-
+  
     // Fetch all ratings for the current review
     const ratingsObject = await getWasThisReviewHelpful(initialFirebaseKey);
-
+  
     // Convert ratings object to array and extract the innermost objects
     const ratings = ratingsObject ? Object.values(ratingsObject).flatMap(Object.values) : [];
-
+  
     // Check if the current user has already rated this review
     const existingRating = ratings.find((rating) => rating.uid === uid && rating.reviewId === initialFirebaseKey);
 

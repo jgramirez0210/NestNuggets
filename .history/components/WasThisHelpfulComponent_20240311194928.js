@@ -24,11 +24,15 @@ const WasThisReviewHelpful = ({ firebaseKey: initialFirebaseKey, reviews = [] })
     // Fetch all ratings for the current review
     const ratingsObject = await getWasThisReviewHelpful(initialFirebaseKey);
 
-    // Convert ratings object to array and extract the innermost objects
-    const ratings = ratingsObject ? Object.values(ratingsObject).flatMap(Object.values) : [];
+    // Convert ratings object to array
+    const ratings = ratingsObject ? Object.values(ratingsObject) : [];
+
+    // Log the first rating object to the console
+    console.log(ratings[0]);
 
     // Check if the current user has already rated this review
-    const existingRating = ratings.find((rating) => rating.uid === uid && rating.reviewId === initialFirebaseKey);
+    // Adjust this line to match the actual structure of the rating object
+    const existingRating = ratings.find((rating) => /* correct path to uid */ === uid);
 
     if (existingRating) {
       // User has already rated this review, update their rating
@@ -40,7 +44,6 @@ const WasThisReviewHelpful = ({ firebaseKey: initialFirebaseKey, reviews = [] })
 
     setHasRated(true);
   };
-
   return (
     <div className="helpful-rating">
       <p>Was this helpful?</p>
