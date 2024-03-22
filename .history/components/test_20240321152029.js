@@ -1,0 +1,17 @@
+
+
+// Test data
+const testData = {
+  reviewId: 'testReviewId', // Replace with a real reviewId for testing
+  rating: 5, // Replace with a test rating
+  uid: 'testUid' // Replace with a real uid for testing
+};
+
+// Call the function with the test data
+createWasThisHelpfulReviewRating(testData)
+  .then((reviewId) => {
+    console.log('New rating created with reviewId:', reviewId);
+  })
+  .catch((error) => {
+    console.error('Error creating rating:', error);
+  });
