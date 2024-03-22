@@ -103,6 +103,21 @@ const deleteReview = (firebaseKey) => new Promise((resolve, reject) => {
 // ADD NEW REVIEW RATING
 const createWasThisHelpfulReviewRating = ({ reviewId, ...rest }) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}.json`, {
+    method: 'POST', // Change this to POST
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ reviewId, ...rest }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      resolve(reviewId);
+    })
+    .catch(reject);
+});
+// UPDATE WAS THIS REVIEW HELPFUL
+const createWasThisHelpfulReviewRating = ({ reviewId, ...rest }) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}.json`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -111,51 +126,11 @@ const createWasThisHelpfulReviewRating = ({ reviewId, ...rest }) => new Promise(
   })
     .then((response) => response.json())
     .then((data) => {
-      const firebaseKey = data.name;
-      const reviewWithKey = { reviewId, firebaseKey, ...rest };
-      return fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}/${firebaseKey}.json`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(reviewWithKey),
-      });
+      // data.name contains the Firebase-generated key
+      resolve(data.name);
     })
-    .then((response) => response.json())
-    .then(resolve)
     .catch(reject);
 });
-// UPDATE WAS THIS REVIEW HELPFUL
-const updateWasThisHelpfulReviewRating = (reviewId, firebaseKey, newRating) => {
-  console.warn('Update firebaseKey:', firebaseKey); // Log the firebaseKey
-
-  // Check if the firebaseKey exists
-  return fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}/${firebaseKey}.json`)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data === null) {
-        throw new Error(`firebaseKey does not exist: ${firebaseKey}`);
-      }
-
-      // If the firebaseKey exists, update the rating
-      return fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}/${firebaseKey}.json`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ rating: newRating }), // Include the field name in the body
-      });
-    })
-    .then((response) => {
-      console.warn('Response status:', response.status); // Log the response status
-      return response.json();
-    })
-    .then((data) => {
-      console.warn('Response data:', data); // Log the response data
-      return data;
-    })
-    .catch((error) => console.error(error));
-};
 // GET WAS THIS REVIEW HELPFUL
 const getWasThisHelpfulReviewRating = (reviewId) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}.json`, {
@@ -198,14 +173,10 @@ const getCurrentRating = (payload) => new Promise((resolve, reject) => {
     });
 });
 
-const firebaseKeyExists = async (firebaseKey) => fetch(`${endpoint}/wasThisReviewHelpful/${firebaseKey}.json`)
-  .then((response) => response.json())
-  .then((data) => !!data);
-
 // Make sure to call the function with a valid reviewId
 getWasThisHelpfulReviewRating('some-review-id');
 
 export {
   getReview, createReview, updateReview, getReviewByUser, deleteReview, getSingleReview, createWasThisHelpfulReviewRating,
-  getWasThisHelpfulReviewRating, getCurrentRating, updateWasThisHelpfulReviewRating, firebaseKeyExists,
+  getWasThisHelpfulReviewRating, getCurrentRating, updateWasThisHelpfulReviewRating,
 };

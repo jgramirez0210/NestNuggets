@@ -6,6 +6,9 @@ import checkIfRatingExists from './checkIfRatingExists.js';
 import {
   createWasThisHelpfulReviewRating, updateWasThisHelpfulReviewRating,
 } from '../api/reviewData.js';
+import { clientCredentials } from '../utils/client.js';
+
+const endpoint = clientCredentials.databaseURL;
 
 const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
   const [helpfulRating, setHelpfulRating] = useState(null);
@@ -27,23 +30,21 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
     }
   }, [user, firebaseKey]);
 
-  const handleRating = async (reviewId, newRating) => {
-    console.warn('reviewID handleRating', reviewId);
-    const ratingFirebaseKey = await checkIfRatingExists({ reviewId, uid });
+  const handleRating = async (newRating) => {
+    console.warn('reviewID handleRating', firebaseKey);
+    const ratingFirebaseKey = await checkIfRatingExists({ reviewId: firebaseKey, uid });
     console.warn('rating FirebaseKey~~~', ratingFirebaseKey);
 
-    if (ratingFirebaseKey) {
+    if (ratingFirebaseKey && await firebaseKeyExists(ratingFirebaseKey)) {
       // If a rating exists for the current user, update it
       console.warn('Updating rating with firebaseKey:', ratingFirebaseKey); // Log the firebaseKey used for updating
-      console.warn('Passing reviewId to updateWasThisHelpfulReviewRating:', reviewId); // Log the reviewId being passed
-      await updateWasThisHelpfulReviewRating(reviewId, ratingFirebaseKey, newRating);
+      await updateWasThisHelpfulReviewRating(ratingFirebaseKey, newRating);
     } else {
       // If no rating exists for the current user, create a new one
-      console.warn('Current reviewId:', reviewId); // Log the current reviewId
-      createWasThisHelpfulReviewRating({ reviewId, uid, rating: newRating });
+      console.warn('Current reviewId:', firebaseKey); // Log the current reviewId
+      createWasThisHelpfulReviewRating({ reviewId: firebaseKey, uid, rating: newRating });
     }
   };
-
   return (
     <div className="helpful-rating" style={{ display: 'flex', flexDirection: 'row' }}>
       <p>Was this helpful?</p>

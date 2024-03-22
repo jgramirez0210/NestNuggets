@@ -6,6 +6,9 @@ import checkIfRatingExists from './checkIfRatingExists.js';
 import {
   createWasThisHelpfulReviewRating, updateWasThisHelpfulReviewRating,
 } from '../api/reviewData.js';
+import { clientCredentials } from '../utils/client.js';
+
+const endpoint = clientCredentials.databaseURL;
 
 const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
   const [helpfulRating, setHelpfulRating] = useState(null);
@@ -32,18 +35,21 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
     const ratingFirebaseKey = await checkIfRatingExists({ reviewId, uid });
     console.warn('rating FirebaseKey~~~', ratingFirebaseKey);
 
-    if (ratingFirebaseKey) {
+    const firebaseKeyExists = async (firebaseKey) => 
+      fetch(`${endpoint}/wasThisReviewHelpful/${firebaseKey}.json`)
+        .then((response) => response.json())
+        .then((data) => !!data);
+
+    if (ratingFirebaseKey && await firebaseKeyExists(ratingFirebaseKey)) {
       // If a rating exists for the current user, update it
       console.warn('Updating rating with firebaseKey:', ratingFirebaseKey); // Log the firebaseKey used for updating
-      console.warn('Passing reviewId to updateWasThisHelpfulReviewRating:', reviewId); // Log the reviewId being passed
-      await updateWasThisHelpfulReviewRating(reviewId, ratingFirebaseKey, newRating);
+      await updateWasThisHelpfulReviewRating(ratingFirebaseKey, newRating);
     } else {
       // If no rating exists for the current user, create a new one
       console.warn('Current reviewId:', reviewId); // Log the current reviewId
       createWasThisHelpfulReviewRating({ reviewId, uid, rating: newRating });
     }
   };
-
   return (
     <div className="helpful-rating" style={{ display: 'flex', flexDirection: 'row' }}>
       <p>Was this helpful?</p>
