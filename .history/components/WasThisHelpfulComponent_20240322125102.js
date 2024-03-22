@@ -16,6 +16,7 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
   const [uid, setUid] = useState(null);
 
   useEffect(() => {
+    console.warn('Current ReviewId (firebaseKey) on this page:', firebaseKey);
     if (user) {
       setUid(user.uid);
       const checkRating = async () => {
@@ -26,13 +27,18 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
   }, [user, firebaseKey]);
 
   const handleRating = async (reviewId, newRating) => {
+    console.warn('reviewID handleRating', reviewId);
     const ratingFirebaseKey = await checkIfRatingExists({ reviewId, uid });
+    console.warn('rating FirebaseKey~~~', ratingFirebaseKey);
 
     if (ratingFirebaseKey) {
       // If a rating exists for the current user, update it
+      console.warn('Updating rating with firebaseKey:', ratingFirebaseKey); // Log the firebaseKey used for updating
+      console.warn('Passing reviewId to updateWasThisHelpfulReviewRating:', reviewId); // Log the reviewId being passed
       await updateWasThisHelpfulReviewRating(reviewId, ratingFirebaseKey, newRating);
     } else {
       // If no rating exists for the current user, create a new one
+      console.warn('Current reviewId:', reviewId); // Log the current reviewId
       createWasThisHelpfulReviewRating({ reviewId, uid, rating: newRating });
     }
   };
@@ -64,6 +70,15 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
           </div>
         );
       })}
+      <button
+        type="button"
+        onClick={() => {
+          setHasRated(false);
+          console.warn('Rating has been reset', hasRated);
+        }}
+      >
+        Reset Rating
+      </button>
     </div>
   );
 };

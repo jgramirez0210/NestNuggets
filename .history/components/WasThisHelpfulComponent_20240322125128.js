@@ -64,6 +64,15 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
           </div>
         );
       })}
+      <button
+        type="button"
+        onClick={() => {
+          setHasRated(false);
+          console.warn('Rating has been reset', hasRated);
+        }}
+      >
+        Reset Rating
+      </button>
     </div>
   );
 };

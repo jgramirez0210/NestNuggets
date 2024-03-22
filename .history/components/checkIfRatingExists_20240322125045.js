@@ -3,6 +3,8 @@ import { getCurrentRating } from '../api/reviewData.js';
 const checkIfRatingExists = async ({ reviewId, uid }) => {
   let ratings = await getCurrentRating({ reviewId });
 
+  console.warn('Ratings:', ratings);
+
   if (!ratings) {
     return null;
   }

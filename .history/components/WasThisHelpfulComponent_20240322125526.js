@@ -16,6 +16,7 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
   const [uid, setUid] = useState(null);
 
   useEffect(() => {
+    getUserRati
     if (user) {
       setUid(user.uid);
       const checkRating = async () => {

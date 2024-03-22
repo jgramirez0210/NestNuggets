@@ -12,7 +12,6 @@ const testData = {
 // Call the function with the test data
 createWasThisHelpfulReviewRating(testData)
   .then((reviewId) => {
-    console.log('New rating created with reviewId:', reviewId);
   })
   .catch((error) => {
     console.error('Error creating rating:', error);

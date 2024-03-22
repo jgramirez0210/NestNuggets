@@ -17,11 +17,7 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
 
   useEffect(() => {
     if (user) {
-      setUid(user.uid);
-      const checkRating = async () => {
-        const exists = await checkIfRatingExists({ reviewId: firebaseKey, uid: user.uid });
-      };
-      checkRating();
+      getCurrentRating(firebaseKey, user.uid).then(rating => setHelpfulRating(rating));
     }
   }, [user, firebaseKey]);
 
@@ -43,27 +39,29 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
       {[...Array(5)].map((star, i) => {
         const ratingValue = i + 1;
         const inputId = `helpfulRating-${ratingValue}`;
-        return (
-          <div className="wasThisHelpful" key={inputId}>
-            <input
-              type="radio"
-              id={inputId}
-              name="helpfulRating"
-              value={ratingValue}
-            />
-            <FaStar
-              className="star"
-              color={ratingValue <= (helpfulHover || helpfulRating) ? '#ffc107' : '#e4e5e9'}
-              size={40}
-              onMouseEnter={() => setHelpfulHover(ratingValue)}
-              onMouseLeave={() => setHelpfulHover(null)}
-              onClick={() => {
-                handleRating(firebaseKey, ratingValue);
-              }}
-            />
-          </div>
-        );
-      })}
+         return (
+    <div className="wasThisHelpful" key={inputId}>
+      <input
+        type="radio"
+        id={inputId}
+        name="helpfulRating"
+        value={ratingValue}
+        checked={ratingValue === helpfulRating} // Check the radio button if it matches the user's rating
+        onChange={() => handleRating(firebaseKey, ratingValue)}
+      />
+      <FaStar
+        className="star"
+        color={ratingValue <= (helpfulHover || helpfulRating) ? '#ffc107' : '#e4e5e9'}
+        size={40}
+        onMouseEnter={() => setHelpfulHover(ratingValue)}
+        onMouseLeave={() => setHelpfulHover(null)}
+        onClick={() => {
+          handleRating(firebaseKey, ratingValue);
+        }}
+      />
+    </div>
+  );
+})}
     </div>
   );
 };

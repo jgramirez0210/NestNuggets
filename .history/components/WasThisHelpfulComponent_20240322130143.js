@@ -15,15 +15,11 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
   const [review, setReview] = useState(null);
   const [uid, setUid] = useState(null);
 
-  useEffect(() => {
-    if (user) {
-      setUid(user.uid);
-      const checkRating = async () => {
-        const exists = await checkIfRatingExists({ reviewId: firebaseKey, uid: user.uid });
-      };
-      checkRating();
-    }
-  }, [user, firebaseKey]);
+useEffect(() => {
+  if (user) {
+    getCurrentRating(firebaseKey, user.uid).then(rating => setHelpfulRating(rating));
+  }
+}, [user, firebaseKey]);
 
   const handleRating = async (reviewId, newRating) => {
     const ratingFirebaseKey = await checkIfRatingExists({ reviewId, uid });
