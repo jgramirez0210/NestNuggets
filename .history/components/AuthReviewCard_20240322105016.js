@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import getWasThisHelpfulReviewById from './WasThisHelpfulComponent.js';
-import { deleteReview, getWasThisHelpfulReviewRating } from '../api/reviewData.js';
-import GetStars from './GetStars.js';
+import { deleteReview, getWasThisHelpfulReviewRating } from '../api/reviewData';
+import GetStars from './GetStars';
 
 function AuthReviewCard({
   reviewObj, onDashboard, onUpdate,

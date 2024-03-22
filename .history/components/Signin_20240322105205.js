@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import NoAuthReviewCard from './NoAuthReviewCard.js';
-import NoAuthNavBar from './NoAuthNavBar.js';
-import { getReview } from '../api/reviewData.js';
+import NoAuthNavBar from './NoAuthNavBar';
+import { getReview } from '../api/reviewData';
 
 function Signin() {
   const [reviewObj, setReview] = useState([]);

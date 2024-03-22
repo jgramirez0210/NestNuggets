@@ -7,9 +7,9 @@ import { Button } from 'react-bootstrap';
 import { useAuth } from '../../utils/context/authContext.js';
 import {
   createReview, updateReview,
-} from '../../api/reviewData.js';
-import WasThisReviewHelpful from '../WasThisHelpfulComponent.js';
-import viewReviewDetails from '../../api/mergeData.js';
+} from '../../api/reviewData';
+import WasThisReviewHelpful from '../WasThisHelpfulComponent';
+import viewReviewDetails from '../../api/mergeData';
 
 const initialState = {
   address: '',

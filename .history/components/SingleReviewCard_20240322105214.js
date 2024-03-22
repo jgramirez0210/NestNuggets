@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import GetStars from './GetStars.js';
-import { deleteReview } from '../api/reviewData.js';
+import { deleteReview } from '../api/reviewData';
 
 function SingleReviewCard({ reviewObj, onDashboard, onUpdate }) {
   const deleteThisReview = () => {

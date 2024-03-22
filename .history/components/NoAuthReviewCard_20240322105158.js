@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import { signIn } from '../utils/auth.js';
-import GetStars from './GetStars.js';
+import GetStars from './GetStars';
 
 function NoAuthReviewCard({ reviewObj }) {
   return (
