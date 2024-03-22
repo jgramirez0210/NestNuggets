@@ -126,11 +126,11 @@ const createWasThisHelpfulReviewRating = ({ reviewId, ...rest }) => new Promise(
     .catch(reject);
 });
 // UPDATE WAS THIS REVIEW HELPFUL
-const updateWasThisHelpfulReviewRating = (reviewId, firebaseKey, newRating) => {
+const updateWasThisHelpfulReviewRating = (firebaseKey, newRating) => {
   console.warn('Update firebaseKey:', firebaseKey); // Log the firebaseKey
 
   // Check if the firebaseKey exists
-  return fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}/${firebaseKey}.json`)
+  return fetch(`${endpoint}/wasThisReviewHelpful/${firebaseKey}.json`)
     .then((response) => response.json())
     .then((data) => {
       if (data === null) {
@@ -138,7 +138,7 @@ const updateWasThisHelpfulReviewRating = (reviewId, firebaseKey, newRating) => {
       }
 
       // If the firebaseKey exists, update the rating
-      return fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}/${firebaseKey}.json`, {
+      return fetch(`${endpoint}/wasThisReviewHelpful/${firebaseKey}.json`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -147,7 +147,6 @@ const updateWasThisHelpfulReviewRating = (reviewId, firebaseKey, newRating) => {
       });
     })
     .then((response) => {
-      console.warn('Response status:', response.status); // Log the response status
       return response.json();
     })
     .then((data) => {
