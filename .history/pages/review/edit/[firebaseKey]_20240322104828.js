@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getSingleReview } from '../../../api/reviewData.js';
-import AddAReviewForm from '../../../components/forms/addAReviewForm.js';
+import AddAReviewForm from '../../../components/forms/addAReviewForm';
 
 export default function EditReview() {
   const [editReview, setEditReview] = useState({});

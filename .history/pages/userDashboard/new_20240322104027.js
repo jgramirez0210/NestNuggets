@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import firebase from 'firebase/app';
 import { useAuth } from '../../utils/context/authContext.js';
 import 'firebase/auth';
-import { getReviewByUser } from '../../api/reviewData.js';
-import AuthReviewCard from '../../components/AuthReviewCard.js';
+import { getReviewByUser } from '../../api/reviewData';
+import AuthReviewCard from '../../components/AuthReviewCard';
 
 export default function ViewUserDetails() {
   const [reviews, setReview] = useState([]);

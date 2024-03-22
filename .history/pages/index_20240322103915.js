@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../utils/context/authContext.js';
-import AuthReviewCard from '../components/AuthReviewCard.js';
-import { getReview } from '../api/reviewData.js';
+import AuthReviewCard from '../components/AuthReviewCard';
+import { getReview } from '../api/reviewData';
 
 function Home() {
   const { user } = useAuth();

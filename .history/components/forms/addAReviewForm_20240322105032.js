@@ -9,7 +9,7 @@ import {
   createReview, updateReview,
 } from '../../api/reviewData.js';
 import WasThisReviewHelpful from '../WasThisHelpfulComponent.js';
-import viewReviewDetails from '../../api/mergeData.js';
+import viewReviewDetails from '../../api/mergeData';
 
 const initialState = {
   address: '',
