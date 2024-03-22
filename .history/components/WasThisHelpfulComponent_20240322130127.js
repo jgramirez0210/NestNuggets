@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useAuth } from '../utils/context/authContext.js';
 import checkIfRatingExists from './checkIfRatingExists.js';
 import {
-  createWasThisHelpfulReviewRating, updateWasThisHelpfulReviewRating,
+  createWasThisHelpfulReviewRating, updateWasThisHelpfulReviewRating, getCurrentRating,
 } from '../api/reviewData.js';
 
 const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
@@ -17,11 +17,7 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
 
   useEffect(() => {
     if (user) {
-      setUid(user.uid);
-      const checkRating = async () => {
-        const exists = await checkIfRatingExists({ reviewId: firebaseKey, uid: user.uid });
-      };
-      checkRating();
+      getCurrentRating(firebaseKey, user.uid).then((rating) => setHelpfulRating(rating));
     }
   }, [user, firebaseKey]);
 
@@ -50,6 +46,8 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
               id={inputId}
               name="helpfulRating"
               value={ratingValue}
+              checked={ratingValue === helpfulRating} // Check the radio button if it matches the user's rating
+              onChange={() => handleRating(firebaseKey, ratingValue)}
             />
             <FaStar
               className="star"

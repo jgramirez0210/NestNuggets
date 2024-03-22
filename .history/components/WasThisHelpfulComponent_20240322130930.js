@@ -64,6 +64,7 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
           </div>
         );
       })}
+
     </div>
   );
 };

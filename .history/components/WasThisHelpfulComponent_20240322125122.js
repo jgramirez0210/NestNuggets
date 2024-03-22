@@ -33,6 +33,7 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
       await updateWasThisHelpfulReviewRating(reviewId, ratingFirebaseKey, newRating);
     } else {
       // If no rating exists for the current user, create a new one
+      console.warn('Current reviewId:', reviewId); // Log the current reviewId
       createWasThisHelpfulReviewRating({ reviewId, uid, rating: newRating });
     }
   };
@@ -64,6 +65,15 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
           </div>
         );
       })}
+      <button
+        type="button"
+        onClick={() => {
+          setHasRated(false);
+          console.warn('Rating has been reset', hasRated);
+        }}
+      >
+        Reset Rating
+      </button>
     </div>
   );
 };

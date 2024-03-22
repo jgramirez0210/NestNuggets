@@ -103,7 +103,7 @@ const deleteReview = (firebaseKey) => new Promise((resolve, reject) => {
 // ADD NEW REVIEW RATING
 const createWasThisHelpfulReviewRating = ({ reviewId, ...rest }) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}.json`, {
-    method: 'POST',
+    method: 'POST', // Change this to POST
     headers: {
       'Content-Type': 'application/json',
     },
@@ -111,37 +111,27 @@ const createWasThisHelpfulReviewRating = ({ reviewId, ...rest }) => new Promise(
   })
     .then((response) => response.json())
     .then((data) => {
-      const firebaseKey = data.name;
-      const reviewWithKey = { reviewId, firebaseKey, ...rest };
-      return fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}/${firebaseKey}.json`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(reviewWithKey),
-      });
+      console.warn('New document created with ID:', reviewId);
+      resolve(reviewId);
     })
-    .then((response) => response.json())
-    .then(resolve)
     .catch(reject);
 });
 // UPDATE WAS THIS REVIEW HELPFUL
-const updateWasThisHelpfulReviewRating = (reviewId, firebaseKey, newRating) => fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}/${firebaseKey}.json`)
-  .then((response) => response.json())
-  .then((data) => {
-    if (data === null) {
-      throw new Error(`firebaseKey does not exist: ${firebaseKey}`);
-    }
-    return fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}/${firebaseKey}.json`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ rating: newRating }),
-    });
+const updateWasThisHelpfulReviewRating = ({ reviewId, ...rest }) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}.json`, {
+    method: 'PUT', // Change this to POST
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ reviewId, ...rest }),
   })
-  .then((response) => response.json())
-  .catch((error) => console.error(error));
+    .then((response) => response.json())
+    .then((data) => {
+      console.warn('New document created with ID:', reviewId);
+      resolve(reviewId);
+    })
+    .catch(reject);
+});
 // GET WAS THIS REVIEW HELPFUL
 const getWasThisHelpfulReviewRating = (reviewId) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/wasThisReviewHelpful/${reviewId}.json`, {
@@ -161,7 +151,22 @@ const getWasThisHelpfulReviewRating = (reviewId) => new Promise((resolve, reject
     })
     .catch(reject);
 });
-
+//  CHECK IF RATING EXISTS
+// const checkIfRatingExists = (reviewId, uid) => new Promise((resolve, reject) => {
+//   fetch(`${endpoint}/wasThisReviewHelpful${reviewId}/${uid}.json`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       const exists = Object.values(data).some((entry) => entry.uid === uid);
+//       console.warn('Rating Exists??!?', exists);
+//       resolve(exists);
+//     })
+//     .catch(reject);
+// });
 // GET CURRENT RATINGS
 const getCurrentRating = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/wasThisReviewHelpful/${payload.reviewId}.json`, {
@@ -184,14 +189,10 @@ const getCurrentRating = (payload) => new Promise((resolve, reject) => {
     });
 });
 
-const firebaseKeyExists = async (firebaseKey) => fetch(`${endpoint}/wasThisReviewHelpful/${firebaseKey}.json`)
-  .then((response) => response.json())
-  .then((data) => !!data);
-
 // Make sure to call the function with a valid reviewId
 getWasThisHelpfulReviewRating('some-review-id');
 
 export {
   getReview, createReview, updateReview, getReviewByUser, deleteReview, getSingleReview, createWasThisHelpfulReviewRating,
-  getWasThisHelpfulReviewRating, getCurrentRating, updateWasThisHelpfulReviewRating, firebaseKeyExists,
+  getWasThisHelpfulReviewRating, getCurrentRating, updateWasThisHelpfulReviewRating,
 };

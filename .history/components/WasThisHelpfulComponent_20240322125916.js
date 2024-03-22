@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useAuth } from '../utils/context/authContext.js';
 import checkIfRatingExists from './checkIfRatingExists.js';
 import {
-  createWasThisHelpfulReviewRating, updateWasThisHelpfulReviewRating,
+  createWasThisHelpfulReviewRating, updateWasThisHelpfulReviewRating, getCurrentRating
 } from '../api/reviewData.js';
 
 const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
@@ -16,6 +16,7 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
   const [uid, setUid] = useState(null);
 
   useEffect(() => {
+    getCurrentRating(firebaseKey).then((rating) => setHelpfulRating(rating));
     if (user) {
       setUid(user.uid);
       const checkRating = async () => {
@@ -37,31 +38,32 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
     }
   };
 
-  return (
-    <div className="helpful-rating" style={{ display: 'flex', flexDirection: 'row' }}>
-      <p>Was this helpful?</p>
-      {[...Array(5)].map((star, i) => {
-        const ratingValue = i + 1;
-        const inputId = `helpfulRating-${ratingValue}`;
-        return (
-          <div className="wasThisHelpful" key={inputId}>
-            <input
-              type="radio"
-              id={inputId}
-              name="helpfulRating"
-              value={ratingValue}
-            />
-            <FaStar
-              className="star"
-              color={ratingValue <= (helpfulHover || helpfulRating) ? '#ffc107' : '#e4e5e9'}
-              size={40}
-              onMouseEnter={() => setHelpfulHover(ratingValue)}
-              onMouseLeave={() => setHelpfulHover(null)}
-              onClick={() => {
-                handleRating(firebaseKey, ratingValue);
-              }}
-            />
-          </div>
+return (
+  <div className="helpful-rating" style={{ display: 'flex', flexDirection: 'row' }}>
+    <p>Was this helpful?</p>
+    {[...Array(5)].map((star, i) => {
+      const ratingValue = i + 1;
+      const inputId = `helpfulRating-${ratingValue}`;
+      return (
+        <div className="wasThisHelpful" key={inputId}>
+          <input
+            type="radio"
+            id={inputId}
+            name="helpfulRating"
+            value={ratingValue}
+            checked={ratingValue === helpfulRating} // Check the radio button if it matches the user's rating
+          />
+          <FaStar
+            className="star"
+            color={ratingValue <= (helpfulHover || helpfulRating) ? '#ffc107' : '#e4e5e9'}
+            size={40}
+            onMouseEnter={() => setHelpfulHover(ratingValue)}
+            onMouseLeave={() => setHelpfulHover(null)}
+            onClick={() => {
+              handleRating(firebaseKey, ratingValue);
+            }}
+          />
+        </div>
         );
       })}
     </div>

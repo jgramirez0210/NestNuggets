@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useAuth } from '../utils/context/authContext.js';
 import checkIfRatingExists from './checkIfRatingExists.js';
 import {
-  createWasThisHelpfulReviewRating, updateWasThisHelpfulReviewRating,
+  createWasThisHelpfulReviewRating, updateWasThisHelpfulReviewRating, getCurrentRating
 } from '../api/reviewData.js';
 
 const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
@@ -16,6 +16,7 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
   const [uid, setUid] = useState(null);
 
   useEffect(() => {
+    getCurrentRating(firebaseKey).then((rating) => setHelpfulRating(rating));
     if (user) {
       setUid(user.uid);
       const checkRating = async () => {
@@ -50,6 +51,8 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
               id={inputId}
               name="helpfulRating"
               value={ratingValue}
+              checked={ratingValue === helpfulRating}
+              onChange={() => handleRating(firebaseKey, ratingValue)} // Add this line
             />
             <FaStar
               className="star"
