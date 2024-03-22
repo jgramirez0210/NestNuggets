@@ -1,0 +1,27 @@
+import firebase from 'firebase/app';
+import 'firebase/database';
+import { getCurrentRating } from '../api/reviewData';
+
+const checkIfRatingExists = async (reviewId, uid) => {
+  console.warn('UID passed to function:', uid);
+
+  let ratingExists = false;
+  const ratings = await getCurrentRating({ reviewId });
+
+  console.warn('Data from getCurrentRating:', ratings);
+
+  if (ratings && typeof ratings === 'object') {
+    Object.values(ratings).forEach((rating) => {
+      console.warn('Current object:', rating);
+      if (rating.uid === uid) {
+        ratingExists = true;
+      }
+    });
+  }
+
+  console.warn('Rating exists:', ratingExists);
+
+  return ratingExists;
+};
+
+export default checkIfRatingExists;
