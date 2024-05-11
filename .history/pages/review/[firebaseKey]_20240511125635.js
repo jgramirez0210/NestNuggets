@@ -10,8 +10,8 @@ export default function ViewReview() {
   const router = useRouter();
   const { firebaseKey } = router.query;
 
-  const handleButtonClick = () => {
-    router.push(`/reportInaccuracy/${firebaseKey}`);
+  const handelButtonClick = () => {
+    router.push('/reportInaccuracyForm.js');
   };
 
   useEffect(() => {

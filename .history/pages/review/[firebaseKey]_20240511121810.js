@@ -3,19 +3,17 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import viewReviewDetails from '../../api/mergeData.js';
 import WasThisReviewHelpful from '../../components/WasThisHelpfulComponent.js';
-import ReportInaccuracyForm from '../../components/forms/reportInaccuracyForm.js';
 
 export default function ViewReview() {
   const [reviewDetails, setReviewDetails] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const router = useRouter();
-  const { firebaseKey } = router.query;
 
-  const handleButtonClick = () => {
-    router.push(`/reportInaccuracy/${firebaseKey}`);
-  };
+  const { firebaseKey } = router.query;
 
   useEffect(() => {
     viewReviewDetails(firebaseKey).then((data) => {
+      const reviewId = firebaseKey;
       setReviewDetails(data);
     });
   }, [firebaseKey]);
@@ -55,10 +53,11 @@ export default function ViewReview() {
           </div>
         </div>
       </div>
-      <button type="button" onClick={handleButtonClick}>Report Inaccuracy</button>
       <div>
         <WasThisReviewHelpful
           firebaseKey={firebaseKey}
+          reviews={reviews}
+          reviewId={firebaseKey}
         />
       </div>
     </div>
