@@ -44,6 +44,9 @@ input[type="radio"] {
 .review-details {
   background-color: #c8d5b9;
 }
+html {
+  font-size: 62.5%;
+}
 * {
   outline: none;
 }

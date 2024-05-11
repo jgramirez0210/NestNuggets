@@ -8,11 +8,8 @@ import ReportInaccuracyForm from '../../components/forms/reportInaccuracyForm.js
 export default function ViewReview() {
   const [reviewDetails, setReviewDetails] = useState(null);
   const router = useRouter();
-  const { firebaseKey } = router.query;
 
-  const handleButtonClick = () => {
-    router.push(`/reportInaccuracy/${firebaseKey}`);
-  };
+  const { firebaseKey } = router.query;
 
   useEffect(() => {
     viewReviewDetails(firebaseKey).then((data) => {
@@ -55,7 +52,7 @@ export default function ViewReview() {
           </div>
         </div>
       </div>
-      <button type="button" onClick={handleButtonClick}>Report Inaccuracy</button>
+      <ReportInaccuracyForm />
       <div>
         <WasThisReviewHelpful
           firebaseKey={firebaseKey}
