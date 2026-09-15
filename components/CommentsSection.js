@@ -81,7 +81,8 @@ export default function CommentsSection({ reviewId }) {
     if (reviewId) {
       fetchComments();
     }
-  }, [reviewId, user]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reviewId]);
 
   const handleAddComment = async (e) => {
     e.preventDefault();
