@@ -64,8 +64,8 @@ function AddAReviewForm({ obj, firebaseKey }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <h2 className="text-white mt-5">{formInput.firebaseKey ? 'Update' : 'Create'} Review</h2>
+    <Form onSubmit={handleSubmit} className="py-4">
+      <h2 className="text-primary mb-4">{formInput.firebaseKey ? 'Update' : 'Create'} Review</h2>
 
       {/* ADDRESS */}
       <FloatingLabel controlId="floatingInput1" label="Address" className="mb-3">
@@ -153,7 +153,9 @@ function AddAReviewForm({ obj, firebaseKey }) {
       {/* DATE / TIME */}
 
       {/* SUBMIT BUTTON  */}
-      <Button type="submit">{formInput.firebaseKey ? 'Update' : 'Create'} Review</Button>
+      <Button type="submit" className="btn btn-primary w-100 mt-3">
+        {formInput.firebaseKey ? 'Update' : 'Create'} Review
+      </Button>
     </Form>
   );
 }

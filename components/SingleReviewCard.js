@@ -15,37 +15,60 @@ function SingleReviewCard({ reviewObj, onDashboard, onUpdate }) {
     }
   };
   return (
-    <Card style={{ width: '40rem', margin: '10px' }}>
-      {reviewObj && <Card.Img variant="top" src={reviewObj.image} alt={reviewObj.address} style={{ height: '400px' }} />}
-      <Card.Body>
-        <Card.Title>Address: {reviewObj && reviewObj.address}</Card.Title>
-        <p className="card-text bold">
-          <span>Review of the Property: </span>
+    <Card className="shadow rounded-lg" style={{ width: '40rem', margin: 'var(--spacing-md)' }}>
+      {reviewObj && (
+        <Card.Img
+          variant="top"
+          src={reviewObj.image}
+          alt={reviewObj.address}
+          style={{ height: '280px', objectFit: 'cover' }}
+        />
+      )}
+      <Card.Body className="bg-primary-light">
+        <Card.Title className="text-primary m-0">
+          {reviewObj && reviewObj.address}
+        </Card.Title>
+        <p className="card-text text-secondary mt-2">
+          <span className="fw-semibold">Property Rating: </span>
           {reviewObj && reviewObj.reviewProperty}
         </p>
-        <p>
-          {reviewObj.monthlyPrice}
+        <p className="text-secondary small">
+          <strong>Monthly Price:</strong> {reviewObj.monthlyPrice}
         </p>
-        <p>
-          {reviewObj.rentalDuration}
+        <p className="text-secondary small">
+          <strong>Rental Duration:</strong> {reviewObj.rentalDuration}
         </p>
-        <p>
-          {reviewObj.dateTime}
-        </p>
-        {onDashboard && (
-          <>
-            <Button variant="danger" onClick={deleteThisReview} className="m-2">DELETE</Button>
-            <Link href={`/review/edit/${reviewObj.firebaseKey}`} passHref>
-              <Button variant="info">EDIT</Button>
+        {reviewObj.dateTime && (
+          <p className="text-secondary small">
+            <strong>Date:</strong> {reviewObj.dateTime}
+          </p>
+        )}
+
+        <div className="d-flex gap-2 flex-wrap mt-3">
+          {onDashboard && (
+            <>
+              <Button
+                variant="danger"
+                onClick={deleteThisReview}
+                className="btn btn-sm"
+              >
+                Delete
+              </Button>
+              <Link href={`/review/edit/${reviewObj.firebaseKey}`} passHref>
+                <Button variant="info" className="btn btn-sm">
+                  Edit
+                </Button>
+              </Link>
+            </>
+          )}
+          {reviewObj && (
+            <Link href={`/review/${reviewObj.firebaseKey}`} passHref>
+              <Button variant="primary" className="btn btn-sm flex-grow-1">
+                View Details
+              </Button>
             </Link>
-          </>
-        )}
-        {/* DYNAMIC LINK TO VIEW THE REVIEW DETAILS  */}
-        {reviewObj && (
-          <Link href={`/review/${reviewObj.firebaseKey}`} passHref>
-            <Button variant="primary" className="m-2">VIEW MORE DETAILS</Button>
-          </Link>
-        )}
+          )}
+        </div>
       </Card.Body>
     </Card>
   );

@@ -1,105 +1,74 @@
 @import 'bootstrap/dist/css/bootstrap.css';
+@import './design-system.css';
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+/* Override Bootstrap styles to match design system */
+.container {
+  max-width: 1200px;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+  justify-content: center;
+  align-items: flex-start;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  padding-top: 70px;
-  background-color: #FAF3DD;
-}
-.nav-bar {
-  position: fixed;
-  top: 0;
-  background-color: #FAF3DD;
-  z-index: 1000;
-  width: 100%;
-}
-input[type="radio"] {
-  display:none;
-}
-.star{
-  cursor: pointer;
-  transition: color 200ms;
-}
-.card-body {
-  background-color: #c8d5b9;
-}
-.user-card {
-  margin-left: 12px;
-}
+/* Review Details Page */
 .review-details {
-  background-color: #c8d5b9;
+  background-color: var(--color-primary-light);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-lg);
+  margin: var(--spacing-xl) 0;
 }
-* {
-  outline: none;
+
+.user-card {
+  margin-left: var(--spacing-lg);
 }
-body {
+
+/* Star Ratings */
+.star {
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  color: var(--color-accent);
+  font-size: var(--font-size-lg);
+}
+
+.star:hover {
+  color: var(--color-accent-dark);
+}
+
+.star.active {
+  color: var(--color-warning);
+}
+
+/* Form Pages */
+form {
+  padding: var(--spacing-2xl);
   display: grid;
-  place-items: center;
-  min-height: 100vh;
-  background-color: #f4f4f4;
-  font-size: 1.7rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  gap: var(--spacing-lg);
+  max-width: 600px;
+  margin: var(--spacing-2xl) auto;
 }
-section {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  width: 60rem;
-  overflow: hidden;
-  background-color: #fff;
-  min-height: 37rem;
-  border-radius: 5px;
-}
-.form_group {
-  display: grid;
-  gap: 0.3rem;
-}
+
 aside {
   background-image: url(https://media.istockphoto.com/id/1205460056/photo/email-background-concept-on-blue-background-3d-rendering.jpg?b=1&s=612x612&w=0&k=20&c=_NHcxoaTPpdB6cFmpnSpWrlSdrgoIQxoRk-ImaL1QaU=);
+  background-size: cover;
+  background-position: center;
 }
-form {
-  padding: 2rem;
+
+section {
   display: grid;
-  gap: 1.5rem;
-  align-items: end;
-  align-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: var(--spacing-xl);
+  width: 100%;
+  max-width: 1200px;
+  background-color: transparent;
+  border-radius: 0;
+  min-height: auto;
 }
-input {
-  border: 2px solid #ecebf3;
-  padding: 12px 8px;
-}
-label {
-  text-transform: capitalize;
-  color: #666;
-}
-input,
-button {
-  border-radius: 5px;
-}
-.btn {
-  background-color: #090817;
-  color: #dcdbe4;
-  padding: 1.3rem;
-  font-family: inherit;
-  border: none;
-  margin-top: 1.3rem;
-  font-size: 0.9em;
-}
-h2 {
-  text-align: center;
+
+.form_group {
+  display: grid;
+  gap: var(--spacing-sm);
 }

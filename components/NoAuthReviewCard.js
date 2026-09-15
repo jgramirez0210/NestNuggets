@@ -8,15 +8,28 @@ import GetStars from './GetStars.js';
 
 function NoAuthReviewCard({ reviewObj }) {
   return (
-    <Card style={{ width: '30rem', margin: '10px' }}>
-      {reviewObj && <Card.Img variant="top" src={reviewObj.photo} alt={reviewObj.address} style={{ height: '400px' }} />}
-      <Card.Body>
-        <Card.Title>Address: {reviewObj && reviewObj.address}</Card.Title>
+    <Card className="shadow rounded-lg" style={{ width: '30rem', margin: 'var(--spacing-md)' }}>
+      {reviewObj && (
+        <Card.Img
+          variant="top"
+          src={reviewObj.photo}
+          alt={reviewObj.address}
+          style={{ height: '280px', objectFit: 'cover' }}
+        />
+      )}
+      <Card.Body className="bg-primary-light">
+        <Card.Title className="text-primary m-0">
+          {reviewObj && reviewObj.address}
+        </Card.Title>
         {/* DYNAMIC LINK TO VIEW THE REVIEW DETAILS  */}
         {reviewObj && (
-        <Button variant="primary" className="m-2" onClick={signIn}>
-          LOG IN TO VIEW MORE DETAILS
-        </Button>
+          <Button
+            variant="primary"
+            className="btn btn-primary mt-3 w-100"
+            onClick={signIn}
+          >
+            Log In to View More Details
+          </Button>
         )}
       </Card.Body>
     </Card>

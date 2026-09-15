@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import {
   Navbar, Container, Image, Form, FormControl, Button,
 } from 'react-bootstrap';
@@ -7,27 +6,28 @@ import { signIn } from '../utils/auth.js';
 
 export default function NoAuthNavBar() {
   return (
-    <Navbar collapseOnSelect expand="lg" className="nav-bar">
+    <Navbar collapseOnSelect expand="lg" className="nav-bar shadow-sm">
       <Container>
-        <Link passHref href="/">
-          <Navbar.Brand>
-            <Image src="/logo.png" alt="Nest Nuggets Logo" height={75} className="d-inline-block align-top" />
-          </Navbar.Brand>
-        </Link>
-        <Link passHref href="/">
-          <Navbar.Brand>
+        <Navbar.Brand className="d-flex align-items-center gap-2">
+          <Image
+            src="/logo.png"
+            alt="Nest Nuggets Logo"
+            height={60}
+            className="d-inline-block"
+          />
+          <span className="fw-bold text-primary" style={{ fontSize: '1.25rem' }}>
             Nest Nuggets
-          </Navbar.Brand>
-        </Link>
+          </span>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Button type="button" size="lg" className="copy-btn" onClick={signIn}>
+        <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
+          <Button
+            type="button"
+            className="btn btn-primary"
+            onClick={signIn}
+          >
             Sign In
           </Button>
-          {/* <Form className="d-flex">
-            <FormControl type="search" placeholder="Search" className="me-2" aria-label="Search" />
-            <Button variant="outline-success" type="submit">Search</Button>
-          </Form> */}
         </Navbar.Collapse>
       </Container>
     </Navbar>

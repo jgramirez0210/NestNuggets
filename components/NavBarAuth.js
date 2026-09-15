@@ -1,37 +1,54 @@
 import React from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import {
-  Navbar, Container, Image, Form, FormControl, Button,
+  Navbar, Container, Image, Nav, Button,
 } from 'react-bootstrap';
 import { signOut } from '../utils/auth.js';
 
 export default function NavBarAuth() {
+  const router = useRouter();
+
   return (
-    <Navbar collapseOnSelect expand="lg" className="nav-bar">
+    <Navbar collapseOnSelect expand="lg" className="nav-bar shadow-sm">
       <Container>
-        <Link passHref href="/">
-          <Navbar.Brand>
-            <Image src="/logo.png" alt="Nest Nuggets Logo" height={75} className="d-inline-block align-top" />
-          </Navbar.Brand>
-        </Link>
-        <Link passHref href="/">
-          <Navbar.Brand>
+        <Navbar.Brand
+          className="d-flex align-items-center gap-2"
+          onClick={() => router.push('/')}
+          style={{ cursor: 'pointer' }}
+        >
+          <Image
+            src="/logo.png"
+            alt="Nest Nuggets Logo"
+            height={60}
+            className="d-inline-block"
+          />
+          <span className="fw-bold text-primary" style={{ fontSize: '1.25rem' }}>
             Nest Nuggets
-          </Navbar.Brand>
-        </Link>
+          </span>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Link passHref href="/review/edit/new">
-            <Navbar.Brand> Review a Property</Navbar.Brand>
-          </Link>
-          <Link passHref href="/userDashboard/new">
-            <Navbar.Brand> User Dashboard</Navbar.Brand>
-          </Link>
-          <Button variant="danger" onClick={signOut}>Sign Out</Button>
-          {/* <Form className="d-flex">
-            <FormControl type="search" placeholder="Search" className="me-2" aria-label="Search" />
-            <Button variant="outline-success" type="submit">Search</Button>
-          </Form> */}
+          <Nav className="ms-auto gap-3 align-items-center">
+            <Nav.Link
+              className="text-primary fw-medium"
+              onClick={() => router.push('/review/new')}
+            >
+              Write a Review
+            </Nav.Link>
+            <Nav.Link
+              className="text-primary fw-medium"
+              onClick={() => router.push('/userDashboard/new')}
+            >
+              My Dashboard
+            </Nav.Link>
+            <Button
+              variant="danger"
+              className="btn"
+              onClick={signOut}
+            >
+              Sign Out
+            </Button>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

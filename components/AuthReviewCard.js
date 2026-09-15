@@ -10,6 +10,15 @@ import GetStars from './GetStars.js';
 function AuthReviewCard({
   reviewObj, onDashboard, onUpdate,
 }) {
+  const handleCardClick = () => {
+    const key = reviewObj?.firebaseKey;
+    if (key) {
+      window.location.href = `/review/${key}`;
+    }
+  };
+
+  console.log('Review Object:', reviewObj); // Debug log
+
   AuthReviewCard.defaultProps = {
     onUpdate: () => {},
     onDashboard: false,
@@ -49,36 +58,82 @@ function AuthReviewCard({
     }
   };
   return (
-    <Card style={{ width: '30rem', margin: '10px' }}>
-      {reviewObj && <Card.Img variant="top" src={reviewObj.photo} alt={reviewObj.address} style={{ height: '400px' }} />}
-      <Card.Body>
-        <Card.Title>Address: {reviewObj && reviewObj.address}</Card.Title>
-        <p className="card-text bold">
-          <span>Review of the Property: </span>
-          {reviewObj && reviewObj.reviewProperty}
-        </p>
-        {onDashboard && (
-          <>
-            <Button variant="danger" onClick={deleteThisReview} className="m-2">DELETE</Button>
-            <Link href={`/review/edit/${reviewObj.firebaseKey}`} passHref>
-              <Button variant="info">EDIT</Button>
-            </Link>
+    <Card
+      className="shadow rounded-lg overflow-hidden"
+      style={{ width: '30rem', margin: 'var(--spacing-md)', cursor: 'pointer' }}
+      onClick={handleCardClick}
+    >
+      {reviewObj && (
+        <Card.Img
+          variant="top"
+          src={reviewObj.photo}
+          alt={reviewObj.address}
+          style={{ height: '280px', objectFit: 'cover' }}
+        />
+      )}
+      <Card.Body className="bg-primary-light" style={{ textAlign: 'left' }}>
+        <Card.Title className="text-primary m-0 mb-2" style={{ textAlign: 'left' }}>
+          {reviewObj && reviewObj.address ? reviewObj.address : 'Property Address'}
+        </Card.Title>
 
-          </>
-        )}
-        {/* DYNAMIC LINK TO VIEW THE REVIEW DETAILS  */}
-        {reviewObj && (
-          <>
+        <div className="small mb-3">
+          {reviewObj?.monthlyPrice && (
+            <p className="m-0 text-secondary" style={{ textAlign: 'left' }}>
+              <strong>Price:</strong> {reviewObj.monthlyPrice}/mo
+            </p>
+          )}
+          {reviewObj?.rentalDuration && (
+            <p className="m-0 text-secondary" style={{ textAlign: 'left' }}>
+              <strong>Duration:</strong> {reviewObj.rentalDuration}
+            </p>
+          )}
+          {reviewObj?.reviewProperty && (
+            <p className="m-0 text-secondary" style={{ textAlign: 'left' }}>
+              <strong>Property:</strong> {reviewObj.reviewProperty}
+            </p>
+          )}
+          {reviewObj?.reviewArea && (
+            <p className="m-0 text-secondary" style={{ textAlign: 'left' }}>
+              <strong>Area:</strong> {reviewObj.reviewArea}
+            </p>
+          )}
+        </div>
+
+        <div className="d-flex gap-2 flex-wrap mt-3" onClick={(e) => e.stopPropagation()}>
+          {onDashboard && (
+            <>
+              <Button
+                variant="danger"
+                onClick={deleteThisReview}
+                className="btn btn-sm"
+              >
+                Delete
+              </Button>
+              <Link href={`/review/edit/${reviewObj.firebaseKey}`} passHref>
+                <Button variant="info" className="btn btn-sm">
+                  Edit
+                </Button>
+              </Link>
+            </>
+          )}
+          {reviewObj && (
             <Link href={`/review/${reviewObj.firebaseKey}`} passHref>
-              <Button variant="primary" className="m-2">VIEW MORE DETAILS</Button>
+              <Button variant="primary" className="btn btn-sm flex-grow-1">
+                View Details
+              </Button>
             </Link>
-            <div>
-              Average rating: {helpfulReviews}
-              <p className="rating-count">
-                {numberOfRatings} people found this helpful.
-              </p>
-            </div>
-          </>
+          )}
+        </div>
+
+        {reviewObj && (
+          <div className="mt-3 pt-3 border-top" style={{ textAlign: 'left' }}>
+            <p className="m-0 text-primary">
+              <strong>Helpful Rating:</strong> {helpfulReviews} ⭐
+            </p>
+            <p className="m-0 text-secondary small">
+              {numberOfRatings} people found this helpful
+            </p>
+          </div>
         )}
       </Card.Body>
     </Card>

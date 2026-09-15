@@ -5,6 +5,8 @@ const viewReviewDetails = (reviewFirebaseKey) => new Promise((resolve, reject) =
     .then((reviewObject) => {
       if (reviewObject) {
         resolve({ ...reviewObject });
+      } else {
+        reject(new Error(`Review not found: ${reviewFirebaseKey}`));
       }
     })
     .catch((error) => {

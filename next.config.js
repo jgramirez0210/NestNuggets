@@ -1,6 +1,5 @@
 module.exports = {
   images: {
-    loader: 'imgix',
-    path: '',
+    domains: ['photos.zillowstatic.com', 'images.trvl-media.com'],
   },
 };

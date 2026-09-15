@@ -23,13 +23,27 @@ const AuthProvider = (props) => {
   // an object/value = user is logged in
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((fbUser) => {
-      if (fbUser) {
-        setUser(fbUser);
-      } else {
+    const timeout = setTimeout(() => {
+      if (user === null) {
         setUser(false);
       }
-    }); // creates a single global listener for auth state changed
+    }, 5000);
+
+    try {
+      firebase.auth().onAuthStateChanged((fbUser) => {
+        clearTimeout(timeout);
+        if (fbUser) {
+          setUser(fbUser);
+        } else {
+          setUser(false);
+        }
+      });
+    } catch (error) {
+      console.error('Firebase auth error:', error);
+      setUser(false);
+    }
+
+    return () => clearTimeout(timeout);
   }, []);
 
   const value = useMemo( // https://reactjs.org/docs/hooks-reference.html#usememo

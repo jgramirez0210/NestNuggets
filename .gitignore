@@ -45,3 +45,6 @@ yarn-error.log*
 
 # Local Netlify folder
 .netlify
+
+# run skill driver output
+.claude/skills/run-nest-nuggets/screenshots/
