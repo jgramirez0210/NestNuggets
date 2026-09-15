@@ -32,6 +32,10 @@ export default function CommentsSection({ reviewId }) {
   const [userDislikes, setUserDislikes] = useState({});
 
   const fetchLikesAndDislikes = async (commentsList) => {
+    if (!user?.uid) {
+      return;
+    }
+
     const [likesResults, dislikesResults, userLikesResults, userDislikesResults] = await Promise.all([
       Promise.all(commentsList.map((c) => getCommentLikes(c.firebaseKey))),
       Promise.all(commentsList.map((c) => getCommentDislikes(c.firebaseKey))),
@@ -74,9 +78,10 @@ export default function CommentsSection({ reviewId }) {
   };
 
   useEffect(() => {
-    fetchComments();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reviewId]);
+    if (reviewId) {
+      fetchComments();
+    }
+  }, [reviewId, user]);
 
   const handleAddComment = async (e) => {
     e.preventDefault();
