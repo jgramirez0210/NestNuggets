@@ -30,14 +30,14 @@ export default function NavBarAuth() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto gap-3 align-items-center">
             <Nav.Link
+              href="/review/new"
               className="text-primary fw-medium"
-              onClick={() => router.push('/review/new')}
             >
               Write a Review
             </Nav.Link>
             <Nav.Link
+              href="/userDashboard/new"
               className="text-primary fw-medium"
-              onClick={() => router.push('/userDashboard/new')}
             >
               My Dashboard
             </Nav.Link>
