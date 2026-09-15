@@ -99,6 +99,7 @@ function AuthReviewCard({
           )}
         </div>
 
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
         <div className="d-flex gap-2 flex-wrap mt-3" onClick={(e) => e.stopPropagation()}>
           {onDashboard && (
             <>
@@ -144,6 +145,9 @@ AuthReviewCard.propTypes = {
     photo: PropTypes.string,
     address: PropTypes.string,
     reviewProperty: PropTypes.string,
+    reviewArea: PropTypes.string,
+    monthlyPrice: PropTypes.string,
+    rentalDuration: PropTypes.string,
     rating: PropTypes.string,
     firebaseKey: PropTypes.string,
     reviews: PropTypes.arrayOf(PropTypes.shape({

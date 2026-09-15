@@ -17,15 +17,13 @@ export default function ViewUserDetails() {
   const fetchReviews = useCallback(() => {
     getReviewByUser(user.uid).then((fetchedReviews) => {
       setReview(fetchedReviews);
-    }).catch((error) => {
-    });
+    }).catch(() => {});
   }, [user.uid]);
 
   const fetchUserProfile = useCallback(() => {
     getUserProfile(user.uid).then((profile) => {
       setUserProfile(profile || {});
-    }).catch((error) => {
-    });
+    }).catch(() => {});
   }, [user.uid]);
 
   const fetchCommentedReviews = useCallback(async () => {
@@ -33,8 +31,8 @@ export default function ViewUserDetails() {
       const userComments = await getCommentsByUser(user.uid);
       if (userComments && userComments.length > 0) {
         const allReviews = await getReview();
-        const reviewIds = new Set(userComments.map(c => c.reviewId));
-        const filtered = allReviews.filter(r => reviewIds.has(r.firebaseKey));
+        const reviewIds = new Set(userComments.map((c) => c.reviewId));
+        const filtered = allReviews.filter((r) => reviewIds.has(r.firebaseKey));
         setCommentedReviews(filtered);
       }
     } catch (error) {
@@ -63,7 +61,9 @@ export default function ViewUserDetails() {
               src={user.photoURL}
               alt="Profile"
               className="rounded-circle mb-3"
-              style={{ width: '100px', height: '100px', objectFit: 'cover', display: 'block' }}
+              style={{
+                width: '100px', height: '100px', objectFit: 'cover', display: 'block',
+              }}
             />
             <h3 className="text-primary mb-1">{user.displayName}</h3>
             <p className="text-secondary small mb-3">{user?.email}</p>
@@ -115,7 +115,7 @@ export default function ViewUserDetails() {
         ) : (
           <div className="card shadow rounded-lg bg-light p-5">
             <p className="text-secondary mb-3">
-              You haven't written any reviews yet.
+              You haven&apos;t written any reviews yet.
             </p>
             <Link href="/review/new" passHref>
               <button type="button" className="btn btn-primary">
@@ -128,7 +128,7 @@ export default function ViewUserDetails() {
 
       {/* Commented Reviews Section */}
       <div>
-        <h2 className="text-primary mb-3">Reviews I've Commented On</h2>
+        <h2 className="text-primary mb-3">Reviews I&apos;ve Commented On</h2>
         <p className="text-secondary small mb-4">
           {commentedReviews.length} review{commentedReviews.length !== 1 ? 's' : ''}
         </p>
@@ -147,7 +147,7 @@ export default function ViewUserDetails() {
         ) : (
           <div className="card shadow rounded-lg bg-light p-5">
             <p className="text-secondary mb-3">
-              You haven't commented on any reviews yet.
+              You haven&apos;t commented on any reviews yet.
             </p>
             <Link href="/" passHref>
               <button type="button" className="btn btn-primary">

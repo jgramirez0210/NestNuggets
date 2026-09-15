@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { getReviewByUser } from '../../api/reviewData.js';
 import { getUserProfile } from '../../api/userData.js';
 import AuthReviewCard from '../../components/AuthReviewCard.js';
@@ -12,13 +11,7 @@ export default function PublicProfile() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (userId) {
-      fetchProfileData();
-    }
-  }, [userId]);
-
-  const fetchProfileData = async () => {
+  const fetchProfileData = useCallback(async () => {
     try {
       const profile = await getUserProfile(userId);
       setUserProfile(profile);
@@ -30,7 +23,13 @@ export default function PublicProfile() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    if (userId) {
+      fetchProfileData();
+    }
+  }, [userId, fetchProfileData]);
 
   if (loading) {
     return (
@@ -43,11 +42,13 @@ export default function PublicProfile() {
   if (!userProfile) {
     return (
       <div className="container py-5">
-        <Link href="/">
-          <a className="text-primary mb-4" style={{ display: 'inline-block' }}>
-            ← Back to Home
-          </a>
-        </Link>
+        <button
+          type="button"
+          className="btn btn-link text-primary mb-4 p-0"
+          onClick={() => router.push('/')}
+        >
+          ← Back to Home
+        </button>
         <p className="text-secondary">User profile not found.</p>
       </div>
     );
@@ -55,11 +56,13 @@ export default function PublicProfile() {
 
   return (
     <div className="container py-5" style={{ textAlign: 'left' }}>
-      <Link href="/">
-        <a className="text-primary mb-4" style={{ display: 'inline-block' }}>
-          ← Back to Home
-        </a>
-      </Link>
+      <button
+        type="button"
+        className="btn btn-link text-primary mb-4 p-0"
+        onClick={() => router.push('/')}
+      >
+        ← Back to Home
+      </button>
 
       <div className="card shadow rounded-lg bg-primary-light mb-5" style={{ maxWidth: '500px' }}>
         <div className="card-body">
@@ -69,7 +72,9 @@ export default function PublicProfile() {
               src={userProfile.photoURL}
               alt={userProfile.displayName}
               className="rounded-circle mb-3"
-              style={{ width: '120px', height: '120px', objectFit: 'cover', display: 'block' }}
+              style={{
+                width: '120px', height: '120px', objectFit: 'cover', display: 'block',
+              }}
             />
           )}
           <h2 className="text-primary mb-2">{userProfile.displayName}</h2>
@@ -104,7 +109,7 @@ export default function PublicProfile() {
       ) : (
         <div className="card shadow rounded-lg bg-light p-5">
           <p className="text-secondary">
-            {userProfile.displayName} hasn't written any reviews yet.
+            {userProfile.displayName} hasn&apos;t written any reviews yet.
           </p>
         </div>
       )}

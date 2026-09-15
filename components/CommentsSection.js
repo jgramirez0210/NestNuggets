@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useAuth } from '../utils/context/authContext.js';
 import {
   createComment,
@@ -30,15 +31,37 @@ export default function CommentsSection({ reviewId }) {
   const [userLikes, setUserLikes] = useState({});
   const [userDislikes, setUserDislikes] = useState({});
 
-  useEffect(() => {
-    fetchComments();
-  }, [reviewId]);
+  const fetchLikesAndDislikes = async (commentsList) => {
+    const [likesResults, dislikesResults, userLikesResults, userDislikesResults] = await Promise.all([
+      Promise.all(commentsList.map((c) => getCommentLikes(c.firebaseKey))),
+      Promise.all(commentsList.map((c) => getCommentDislikes(c.firebaseKey))),
+      Promise.all(commentsList.map((c) => checkUserCommentLike(c.firebaseKey, user.uid))),
+      Promise.all(commentsList.map((c) => checkUserCommentDislike(c.firebaseKey, user.uid))),
+    ]);
+
+    const likesData = {};
+    const dislikesData = {};
+    const userLikesData = {};
+    const userDislikesData = {};
+
+    commentsList.forEach((c, i) => {
+      likesData[c.firebaseKey] = likesResults[i];
+      dislikesData[c.firebaseKey] = dislikesResults[i];
+      userLikesData[c.firebaseKey] = userLikesResults[i];
+      userDislikesData[c.firebaseKey] = userDislikesResults[i];
+    });
+
+    setLikes(likesData);
+    setDislikes(dislikesData);
+    setUserLikes(userLikesData);
+    setUserDislikes(userDislikesData);
+  };
 
   const fetchComments = async () => {
     try {
       const fetchedComments = await getCommentsByReview(reviewId);
-      const sortedComments = (fetchedComments || []).sort((a, b) =>
-        new Date(b.createdAt) - new Date(a.createdAt)
+      const sortedComments = (fetchedComments || []).sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
       );
       setComments(sortedComments);
 
@@ -50,24 +73,10 @@ export default function CommentsSection({ reviewId }) {
     }
   };
 
-  const fetchLikesAndDislikes = async (commentsList) => {
-    const likesData = {};
-    const dislikesData = {};
-    const userLikesData = {};
-    const userDislikesData = {};
-
-    for (const comment of commentsList) {
-      likesData[comment.firebaseKey] = await getCommentLikes(comment.firebaseKey);
-      dislikesData[comment.firebaseKey] = await getCommentDislikes(comment.firebaseKey);
-      userLikesData[comment.firebaseKey] = await checkUserCommentLike(comment.firebaseKey, user.uid);
-      userDislikesData[comment.firebaseKey] = await checkUserCommentDislike(comment.firebaseKey, user.uid);
-    }
-
-    setLikes(likesData);
-    setDislikes(dislikesData);
-    setUserLikes(userLikesData);
-    setUserDislikes(userDislikesData);
-  };
+  useEffect(() => {
+    fetchComments();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reviewId]);
 
   const handleAddComment = async (e) => {
     e.preventDefault();
@@ -214,10 +223,11 @@ export default function CommentsSection({ reviewId }) {
     return date.toLocaleDateString();
   };
 
-  const topLevelComments = comments.filter(c => !c.parentCommentId);
-  const getReplies = (commentId) => comments.filter(c => c.parentCommentId === commentId);
+  const topLevelComments = comments.filter((c) => !c.parentCommentId);
+  const getReplies = (commentId) => comments.filter((c) => c.parentCommentId === commentId);
 
-  const CommentItem = ({ comment, isReply = false }) => (
+  /* eslint-disable react/prop-types */
+  const CommentItem = ({ comment, isReply }) => (
     <div
       className="bg-light p-3 rounded-lg mb-3"
       style={{ marginLeft: isReply ? '2rem' : '0' }}
@@ -246,6 +256,7 @@ export default function CommentsSection({ reviewId }) {
             {user?.uid === comment.userId && (
               <div className="d-flex gap-2">
                 <button
+                  type="button"
                   className="btn btn-sm btn-link text-primary p-0"
                   onClick={() => handleEditComment(comment.firebaseKey, comment.content)}
                   disabled={loading}
@@ -253,6 +264,7 @@ export default function CommentsSection({ reviewId }) {
                   {editingId === comment.firebaseKey ? 'Save' : 'Edit'}
                 </button>
                 <button
+                  type="button"
                   className="btn btn-sm btn-link text-danger p-0"
                   onClick={() => handleDeleteComment(comment.firebaseKey)}
                   disabled={loading}
@@ -281,6 +293,7 @@ export default function CommentsSection({ reviewId }) {
 
           <div className="d-flex gap-3 align-items-center mb-2">
             <button
+              type="button"
               className={`btn btn-sm p-0 ${userLikes[comment.firebaseKey] ? 'text-primary' : 'text-secondary'}`}
               onClick={() => handleLike(comment.firebaseKey)}
               style={{ background: 'none', border: 'none', cursor: 'pointer' }}
@@ -288,6 +301,7 @@ export default function CommentsSection({ reviewId }) {
               👍 {likes[comment.firebaseKey] || 0}
             </button>
             <button
+              type="button"
               className={`btn btn-sm p-0 ${userDislikes[comment.firebaseKey] ? 'text-danger' : 'text-secondary'}`}
               onClick={() => handleDislike(comment.firebaseKey)}
               style={{ background: 'none', border: 'none', cursor: 'pointer' }}
@@ -296,6 +310,7 @@ export default function CommentsSection({ reviewId }) {
             </button>
             {!isReply && (
               <button
+                type="button"
                 className="btn btn-sm btn-link p-0 text-primary"
                 onClick={() => setReplyingTo(comment.firebaseKey)}
               >
@@ -341,7 +356,7 @@ export default function CommentsSection({ reviewId }) {
 
       {getReplies(comment.firebaseKey).length > 0 && (
         <React.Fragment key={`replies-${comment.firebaseKey}`}>
-          {getReplies(comment.firebaseKey).map(reply => (
+          {getReplies(comment.firebaseKey).map((reply) => (
             <React.Fragment key={reply.firebaseKey}>
               <CommentItem comment={reply} isReply />
             </React.Fragment>
@@ -350,7 +365,6 @@ export default function CommentsSection({ reviewId }) {
       )}
     </div>
   );
-
   return (
     <div className="mt-5">
       <h3 className="text-primary mb-4">Discussion ({comments.length})</h3>
@@ -391,7 +405,7 @@ export default function CommentsSection({ reviewId }) {
 
       <div>
         {topLevelComments.length > 0 ? (
-          topLevelComments.map(comment => (
+          topLevelComments.map((comment) => (
             <React.Fragment key={comment.firebaseKey}>
               <CommentItem comment={comment} />
             </React.Fragment>
@@ -403,3 +417,9 @@ export default function CommentsSection({ reviewId }) {
     </div>
   );
 }
+
+/* eslint-enable react/prop-types */
+
+CommentsSection.propTypes = {
+  reviewId: PropTypes.string.isRequired,
+};

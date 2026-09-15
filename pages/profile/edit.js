@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/storage';
@@ -125,11 +124,13 @@ export default function EditProfile() {
 
   return (
     <div className="container py-5" style={{ maxWidth: '600px', textAlign: 'left' }}>
-      <Link href="/userDashboard/new">
-        <a className="text-primary mb-4" style={{ display: 'inline-block' }}>
-          ← Back to Dashboard
-        </a>
-      </Link>
+      <button
+        type="button"
+        className="btn btn-link text-primary mb-4 p-0"
+        onClick={() => router.push('/userDashboard/new')}
+      >
+        ← Back to Dashboard
+      </button>
 
       <h1 className="text-primary mb-5">Edit Profile</h1>
 
@@ -140,11 +141,14 @@ export default function EditProfile() {
           </label>
           <div className="mb-3">
             {imagePreview && (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={imagePreview}
                 alt="Profile Preview"
                 className="rounded-circle mb-3"
-                style={{ width: '120px', height: '120px', objectFit: 'cover', display: 'block' }}
+                style={{
+                  width: '120px', height: '120px', objectFit: 'cover', display: 'block',
+                }}
               />
             )}
           </div>
@@ -236,7 +240,7 @@ export default function EditProfile() {
 
         {showDeleteConfirm && (
           <div className="alert alert-danger mb-3" role="alert">
-            <strong>Are you sure?</strong> This action cannot be undone. Click "Confirm Delete" again to permanently delete your account.
+            <strong>Are you sure?</strong> This action cannot be undone. Click &quot;Confirm Delete&quot; again to permanently delete your account.
           </div>
         )}
 
@@ -250,11 +254,8 @@ export default function EditProfile() {
             color: showDeleteConfirm ? 'white' : 'var(--color-danger)',
           }}
         >
-          {loading
-            ? 'Deleting...'
-            : showDeleteConfirm
-            ? '⚠️ Confirm Delete Account'
-            : 'Delete Account'}
+          {/* eslint-disable-next-line no-nested-ternary */}
+          {loading ? 'Deleting...' : (showDeleteConfirm ? '⚠️ Confirm Delete Account' : 'Delete Account')}
         </button>
 
         {showDeleteConfirm && (
