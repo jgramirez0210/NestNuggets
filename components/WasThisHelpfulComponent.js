@@ -26,6 +26,8 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
   }, [user, firebaseKey]);
 
   const handleRating = async (reviewId, newRating) => {
+    if (!uid) return;
+
     const ratingFirebaseKey = await checkIfRatingExists({ reviewId, uid });
 
     if (ratingFirebaseKey) {
@@ -33,7 +35,7 @@ const WasThisReviewHelpful = ({ firebaseKey, reviews, initialKey }) => {
       await updateWasThisHelpfulReviewRating(reviewId, ratingFirebaseKey, newRating);
     } else {
       // If no rating exists for the current user, create a new one
-      createWasThisHelpfulReviewRating({ reviewId, uid, rating: newRating });
+      await createWasThisHelpfulReviewRating({ reviewId, uid, rating: newRating });
     }
   };
 

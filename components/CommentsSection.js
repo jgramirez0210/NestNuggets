@@ -31,12 +31,14 @@ export default function CommentsSection({ reviewId }) {
   const [userLikes, setUserLikes] = useState({});
   const [userDislikes, setUserDislikes] = useState({});
 
-  const fetchLikesAndDislikes = async (commentsList) => {
+  const fetchLikesAndDislikes = async (commentsList, currentUser) => {
+    if (!currentUser?.uid) return;
+
     const [likesResults, dislikesResults, userLikesResults, userDislikesResults] = await Promise.all([
       Promise.all(commentsList.map((c) => getCommentLikes(c.firebaseKey))),
       Promise.all(commentsList.map((c) => getCommentDislikes(c.firebaseKey))),
-      Promise.all(commentsList.map((c) => checkUserCommentLike(c.firebaseKey, user.uid))),
-      Promise.all(commentsList.map((c) => checkUserCommentDislike(c.firebaseKey, user.uid))),
+      Promise.all(commentsList.map((c) => checkUserCommentLike(c.firebaseKey, currentUser.uid))),
+      Promise.all(commentsList.map((c) => checkUserCommentDislike(c.firebaseKey, currentUser.uid))),
     ]);
 
     const likesData = {};
@@ -66,7 +68,7 @@ export default function CommentsSection({ reviewId }) {
       setComments(sortedComments);
 
       if (user?.uid) {
-        fetchLikesAndDislikes(sortedComments);
+        fetchLikesAndDislikes(sortedComments, user);
       }
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -184,7 +186,7 @@ export default function CommentsSection({ reviewId }) {
         }
         await addCommentLike(firebaseKey, user.uid);
       }
-      await fetchLikesAndDislikes(comments);
+      await fetchLikesAndDislikes(comments, user);
     } catch (error) {
       console.error('Error liking comment:', error);
     }
@@ -202,7 +204,7 @@ export default function CommentsSection({ reviewId }) {
         }
         await addCommentDislike(firebaseKey, user.uid);
       }
-      await fetchLikesAndDislikes(comments);
+      await fetchLikesAndDislikes(comments, user);
     } catch (error) {
       console.error('Error disliking comment:', error);
     }
